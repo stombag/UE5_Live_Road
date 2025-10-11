@@ -1,0 +1,16 @@
+# 기본값: 전부 무시
+*
+
+# 예외: 이 파일 자신
+!/.gitignore
+
+# 예외: Source 폴더
+!/Source/
+!/Source/**
+
+# 예외: Config 폴더(설정 공유용)
+!/Config/
+!/Config/**
+
+# 예외: .uproject (프로젝트 인식용)
+!/*.uproject
