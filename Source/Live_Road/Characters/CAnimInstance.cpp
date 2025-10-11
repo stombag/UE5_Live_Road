@@ -12,7 +12,7 @@ void UCAnimInstance::NativeBeginPlay()
 
 	OwnerCharacter = Cast<ACPlayer> (TryGetPawnOwner());
 	CheckNull(OwnerCharacter); 
-//테스트
+//테스트　테스트
 
 }
 
