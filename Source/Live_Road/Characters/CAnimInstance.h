@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Animation/AnimInstance.h"
-#include "../Weapons/CWeapon.h"
+#include "../Weapons/CWeaponComponent.h"
 #include "CAnimInstance.generated.h"
 
 /**
@@ -17,10 +17,10 @@ class LIVE_ROAD_API UCAnimInstance : public UAnimInstance
 
 	// 블프가 자식이다. protected는 부모자식관계에서 접근가능하다
 protected:
-	 UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Settings")
+	 UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Animation")
 	 float Speed;
 
-	 UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Settings")
+	 UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Animation")
 	 EWeaponType WeaponType = EWeaponType::Max;
 
 
@@ -28,7 +28,11 @@ public:
 	void NativeBeginPlay() override;
 	void NativeUpdateAnimation(float DeltaSeconds) override;
 
+private:
+	UFUNCTION()
+	void OnWeaponTypeChanged( EWeaponType InPrevType, EWeaponType InNewType);
 
 private:
 	class ACPlayer* OwnerCharacter;
+	class UCWeaponComponent* Weapon;
 };

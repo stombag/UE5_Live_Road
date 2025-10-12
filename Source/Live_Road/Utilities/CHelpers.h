@@ -52,6 +52,14 @@ public:
 		InActor->SetRootComponent(*OutComponent);
 
 	}
+	template<typename T>
+	static void CreateActorComponent(AActor* InActor, T** OutComponent, FName InName, USceneComponent* InParent = nullptr)
+	{
+		*OutComponent = InActor->CreateDefaultSubobject<T>(InName);
+	}
+
+
+
 
 	template<typename T>
 	static void GetAsset(T** Outobject, FString InPath) {
@@ -73,4 +81,17 @@ public:
 	}
 
 	
-};
+	static void Log() {
+		UE_LOG(LogTemp, Warning, TEXT("Hello Check"));
+	}
+
+
+	
+
+	template<typename T>
+	static T* GetComponent(AActor* InActor) 
+	{
+
+		return Cast<T>(InActor->GetComponentByClass(T::StaticClass()));
+	}
+}; 

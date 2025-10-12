@@ -4,6 +4,7 @@
 #include "../Characters/CAnimInstance.h"
 #include "../Global.h"
 #include "CPlayer.h"
+#include "../Weapons/CWeaponComponent.h"
 
 
 void UCAnimInstance::NativeBeginPlay()
@@ -12,7 +13,12 @@ void UCAnimInstance::NativeBeginPlay()
 
 	OwnerCharacter = Cast<ACPlayer> (TryGetPawnOwner());
 	CheckNull(OwnerCharacter); 
-//테스트　테스트
+
+	Weapon = CHelpers::GetComponent<UCWeaponComponent>(OwnerCharacter);
+	CheckNull(Weapon);
+
+
+	Weapon->OnWeaponTypeChanged.AddDynamic(this, &UCAnimInstance::OnWeaponTypeChanged);
 
 }
 
@@ -25,5 +31,11 @@ void UCAnimInstance::NativeUpdateAnimation(float DeltaSeconds)
 	// 평면상의 이동속도
 	Speed = OwnerCharacter->GetVelocity().Size2D();
 
-	WeaponType = OwnerCharacter->GetWeapon()->GetType();
+}
+
+void UCAnimInstance::OnWeaponTypeChanged(EWeaponType InPrevType, EWeaponType InNewType)
+{
+
+	WeaponType = InNewType;
+
 }

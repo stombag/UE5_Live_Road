@@ -4,20 +4,21 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "CWeaponComponent.h"
 #include "CWeapon.generated.h"
 
-UENUM(BlueprintType)
-enum class EWeaponType : uint8
-{
-	AR4,AK47, Pistol,Max,
-};
 
-UCLASS()
+UCLASS(Abstract, NotBlueprintable)
 class LIVE_ROAD_API ACWeapon : public AActor
 {
 	GENERATED_BODY()
 
-private: // 설정
+protected:
+	
+	UPROPERTY(VisibleAnywhere, Category = "Settings")
+	EWeaponType Type = EWeaponType::Max;
+
+protected: // 설정
 	UPROPERTY(EditDefaultsOnly, Category = "Equip")
 	FName HolsterSocketName;
 
@@ -31,7 +32,7 @@ private: // 컴퍼넌트
 	UPROPERTY(VisibleAnywhere)
 	class USceneComponent* Root;
 
-private:// 메쉬	
+protected:// 메쉬	
 	UPROPERTY(VisibleAnywhere)
 	class USkeletalMeshComponent* Mesh;
 
@@ -50,9 +51,6 @@ public:
 public:
 	bool CanEquip();
 	void Equip();
-
-private:
-	EWeaponType Type = EWeaponType::Max;
 private:
 	class ACPlayer* Owner;
 

@@ -1,12 +1,12 @@
 #include "../Characters/CPlayer.h"
 #include "../Global.h"
 #include "CAnimInstance.h"
-#include "../Weapons/CWeapon.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/SkeletalMeshComponent.h"
 #include "Camera/CameraComponent.h"
+#include "../Weapons/CWeaponComponent.h" 
 
 
 ACPlayer::ACPlayer()
@@ -15,7 +15,7 @@ ACPlayer::ACPlayer()
 	//SpringArm->SetupAttachment(GetCapsuleComponent());
 	CHelpers::CreateComponent(this, &SpringArm, "SpringArm", GetCapsuleComponent());
 	CHelpers::CreateComponent(this, &Camera, "Camera", SpringArm);
-
+	CHelpers::CreateActorComponent<UCWeaponComponent>(this, &Weapon, "Weapon");
 	//ConstructorHelpers::FObjectFinder<USkeletalMesh>asset(L"");
 
 	USkeletalMesh* mesh;
@@ -25,8 +25,8 @@ ACPlayer::ACPlayer()
 	GetMesh()->SetRelativeRotation(FRotator(0, -90, 0));
 
 	TSubclassOf<UCAnimInstance> animInstance;
-	CHelpers::GetClass<UCAnimInstance>(&animInstance, "/Script/Engine.AnimBlueprint'/Game/Characters/ABP_CPlayer.ABP_CPlayer'");
-	
+	CHelpers::GetClass<UCAnimInstance>(&animInstance, "/Script/Engine.AnimBlueprint'/Game/Characters/ABP_CPlayer.ABP_CPlayer_C'");
+	GetMesh()->SetAnimInstanceClass(animInstance);
 
 	bUseControllerRotationYaw = false; //z축을 사용하지 않는다
 	GetCharacterMovement()->bOrientRotationToMovement = true;
@@ -47,14 +47,6 @@ void ACPlayer::BeginPlay()
 	GetController<APlayerController>()->PlayerCameraManager->ViewPitchMin = PitchAngle.X;
 	GetController<APlayerController>()->PlayerCameraManager->ViewPitchMax = PitchAngle.Y;
 
-	if (!!WeaponClass) 
-	{
-		FActorSpawnParameters params;
-		params.Owner = this;
-		params.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
-
-		Weapon = GetWorld()->SpawnActor<ACWeapon>(WeaponClass, params);
-	}
 }
 
 
@@ -71,8 +63,7 @@ void ACPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	PlayerInputComponent->BindAction("Run",EInputEvent::IE_Pressed, this, &ACPlayer::OnRun);
 	PlayerInputComponent->BindAction("Run", EInputEvent::IE_Released,this, &ACPlayer::OffRun);
 
-	CheckNull(Weapon);
-	PlayerInputComponent->BindAction("AR4", EInputEvent::IE_Pressed, Weapon, &ACWeapon::Equip);
+	PlayerInputComponent->BindAction("AR4", EInputEvent::IE_Pressed, Weapon, &UCWeaponComponent::SetAR4Mode);
 
 }
 

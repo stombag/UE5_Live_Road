@@ -26,16 +26,13 @@ private:
 
 	UPROPERTY(VisibleAnywhere)
 	class UCameraComponent* Camera;
-
-public:
-	FORCEINLINE class ACWeapon* GetWeapon() { return Weapon; }
-
+protected:
+	UPROPERTY(VisibleAnywhere)
+	class UCWeaponComponent* Weapon;
 public:
 	ACPlayer();
 
 protected:
-
-
 	virtual void BeginPlay() override;
 
 public:	
@@ -47,11 +44,8 @@ private:
 	void OnMoveRight(float InAxisValue);
 	void OnHorizontalLook(float InAxisValue);
 	void OnVerticalLook(float InAxisValue);
-
+private:
 	void OnRun();
 	void OffRun();
-
-private:
-	class ACWeapon* Weapon;
 
 }; 
