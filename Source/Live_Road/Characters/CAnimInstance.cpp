@@ -31,7 +31,17 @@ void UCAnimInstance::NativeUpdateAnimation(float DeltaSeconds)
 	// 평면상의 이동속도
 	Speed = OwnerCharacter->GetVelocity().Size2D();
 
-}
+// 현재 캐릭터의 이동 방향(속도 벡터)을 회전값(FRotator)으로 변환하여 저장
+// 예: 앞(+X)으로 이동 → Yaw=0°, 오른쪽(+Y) → Yaw=90°
+	FRotator rotator = OwnerCharacter->GetVelocity().ToOrientationRotator();
+	FRotator rotator2 = OwnerCharacter->GetControlRotation();
+	FRotator target = UKismetMathLibrary::NormalizedDeltaRotator(rotator, rotator2);
+	PrevRotation = UKismetMathLibrary::RInterpTo(PrevRotation,target, DeltaSeconds, 25);
+	Direction = PrevRotation.Yaw;
+
+	Pitch = UKismetMathLibrary::FInterpTo(Pitch, OwnerCharacter->GetBaseAimRotation().Pitch, DeltaSeconds, 25);
+
+} 
 
 void UCAnimInstance::OnWeaponTypeChanged(EWeaponType InPrevType, EWeaponType InNewType)
 {

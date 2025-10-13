@@ -21,12 +21,10 @@ protected:
 	 float Speed;
 
 	 UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Animation")
-	 float Direcion;
-
+	 float Direction;
 
 	 UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Animation")
 	 float Pitch;
-
 
 protected:
 	 UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Weapons")
@@ -46,4 +44,6 @@ private:
 private:
 	class ACPlayer* OwnerCharacter;
 	class UCWeaponComponent* Weapon;
+
+	FRotator PrevRotation;
 };
