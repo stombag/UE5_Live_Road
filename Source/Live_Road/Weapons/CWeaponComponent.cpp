@@ -32,9 +32,20 @@ void UCWeaponComponent::BeginPlay()
 
 }
 
-void UCWeaponComponent::SetUnarmdMode()
+ACWeapon* UCWeaponComponent::GetCurrentWeapon()
 {
 
+	CheckTrueResult(IsUnarmedMode(), nullptr);
+
+
+	return Weapons[(int32)CurrentType];
+}
+
+void UCWeaponComponent::SetUnarmdMode()
+{
+	CheckFalse(GetCurrentWeapon()->CanUnequip());
+	GetCurrentWeapon()->Unequip();	
+	ChangeType(EWeaponType::Max);
 }
 
 void UCWeaponComponent::SetAR4Mode()
@@ -67,6 +78,20 @@ void UCWeaponComponent::ChangeType(EWeaponType InType)
 	CurrentType = InType;
 	if (OnWeaponTypeChanged.IsBound())
 		OnWeaponTypeChanged.Broadcast(type, InType);
+}
+
+void UCWeaponComponent::Begin_Equip()
+{
+	CheckNull(GetCurrentWeapon());
+
+	GetCurrentWeapon()->Begin_Equip();
+
+}
+
+void UCWeaponComponent::End_Equip()
+{
+	CheckNull(GetCurrentWeapon());
+	GetCurrentWeapon()->End_Equip();
 }
 
 

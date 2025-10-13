@@ -16,6 +16,7 @@ ACWeapon_AR4::ACWeapon_AR4()
 	{
 		HolsterSocketName = "Rifle_AR4_Holster";
 		CHelpers::GetAsset<UAnimMontage>(&EquipMontage, "/Script/Engine.AnimMontage'/Game/Characters/Animations/Equip_Rifle_Standing_Montage.Equip_Rifle_Standing_Montage'");
+		RightHandSocketName = "Rifle_AR4_RightHand";
 	}
 
 

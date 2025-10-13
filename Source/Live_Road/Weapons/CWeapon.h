@@ -28,6 +28,10 @@ protected: // 설정
 	UPROPERTY(EditDefaultsOnly, Category = "Equip")
 	float EquipMontage_PlayRate = 1;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Equip")
+	FName RightHandSocketName;
+
+
 private: // 컴퍼넌트
 	UPROPERTY(VisibleAnywhere)
 	class USceneComponent* Root;
@@ -51,7 +55,14 @@ public:
 public:
 	bool CanEquip();
 	void Equip();
+	void Begin_Equip();
+	void End_Equip();
+
+	bool CanUnequip();
+	void Unequip();
 private:
 	class ACPlayer* Owner;
+private:
+	bool bEquipping;
 
 };

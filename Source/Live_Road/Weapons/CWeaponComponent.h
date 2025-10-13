@@ -36,6 +36,8 @@ public:
 
 protected:
 	virtual void BeginPlay() override;
+private:
+	class ACWeapon* GetCurrentWeapon();
 public:
 	void SetUnarmdMode();
 	void SetAR4Mode();
@@ -43,6 +45,9 @@ public:
 private:
 	void SetMode(EWeaponType InType);
 	void ChangeType(EWeaponType InType);
+public:
+	void Begin_Equip();
+	void End_Equip();
 
 public:
 	FWeaponTypeChanged OnWeaponTypeChanged;

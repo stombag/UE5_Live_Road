@@ -21,8 +21,19 @@ protected:
 	 float Speed;
 
 	 UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Animation")
+	 float Direcion;
+
+
+	 UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Animation")
+	 float Pitch;
+
+
+protected:
+	 UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Weapons")
 	 EWeaponType WeaponType = EWeaponType::Max;
 
+	 UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Weapons")
+	 bool bUseIK;
 
 public:
 	void NativeBeginPlay() override;

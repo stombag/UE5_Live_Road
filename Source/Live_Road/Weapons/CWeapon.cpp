@@ -34,13 +34,40 @@ void ACWeapon::Tick(float DeltaTime)
 
 bool ACWeapon::CanEquip()
 {
-	return true;
+	bool b = false;
+	b |= bEquipping;
+	return b == false;
 }
 
 void ACWeapon::Equip()
 {
+	bEquipping = true;
 	if (!!EquipMontage) {
 		Owner->PlayAnimMontage(EquipMontage, EquipMontage_PlayRate);
 	}
+}
+
+void ACWeapon::Begin_Equip()
+{
+	if (RightHandSocketName.IsValid())
+		CHelpers::AttachTo(this, Owner->GetMesh(), RightHandSocketName);
+}
+
+void ACWeapon::End_Equip()
+{
+	bEquipping = false;
+
+}
+
+bool ACWeapon::CanUnequip()
+{	bool b = false;
+	b |= bEquipping;
+	return b == false;
+}
+
+void ACWeapon::Unequip()
+{
+	if (HolsterSocketName.IsValid())
+		CHelpers::AttachTo(this, Owner->GetMesh(), HolsterSocketName);
 }
 
