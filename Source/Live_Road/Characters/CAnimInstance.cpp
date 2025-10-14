@@ -41,6 +41,10 @@ void UCAnimInstance::NativeUpdateAnimation(float DeltaSeconds)
 
 	Pitch = UKismetMathLibrary::FInterpTo(Pitch, OwnerCharacter->GetBaseAimRotation().Pitch, DeltaSeconds, 25);
 
+	CheckNull(Weapon);
+
+	bUseIK = Weapon->IsUnarmedMode() == false;
+	LeftHandLocation = Weapon->GetLeftHandLocation();
 } 
 
 void UCAnimInstance::OnWeaponTypeChanged(EWeaponType InPrevType, EWeaponType InNewType)

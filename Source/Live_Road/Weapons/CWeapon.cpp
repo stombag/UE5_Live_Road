@@ -60,7 +60,8 @@ void ACWeapon::End_Equip()
 }
 
 bool ACWeapon::CanUnequip()
-{	bool b = false;
+{	
+	bool b = false;
 	b |= bEquipping;
 	return b == false;
 }
@@ -69,5 +70,22 @@ void ACWeapon::Unequip()
 {
 	if (HolsterSocketName.IsValid())
 		CHelpers::AttachTo(this, Owner->GetMesh(), HolsterSocketName);
+}
+
+bool ACWeapon::CanFire()
+{
+	bool b = false;
+	b |= bEquipping;
+	return b == false;
+}
+
+void ACWeapon::Begin_Fire()
+{
+
+}
+
+void ACWeapon::End_Fire()
+{
+
 }
 

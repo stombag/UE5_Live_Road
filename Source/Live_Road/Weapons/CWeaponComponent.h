@@ -39,6 +39,8 @@ protected:
 private:
 	class ACWeapon* GetCurrentWeapon();
 public:
+	FVector GetLeftHandLocation();
+public:
 	void SetUnarmdMode();
 	void SetAR4Mode();
 
@@ -48,6 +50,9 @@ private:
 public:
 	void Begin_Equip();
 	void End_Equip();
+public:
+	void Begin_Fire();
+	void End_Fire();
 
 public:
 	FWeaponTypeChanged OnWeaponTypeChanged;

@@ -32,6 +32,9 @@ protected:
 
 	 UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Weapons")
 	 bool bUseIK;
+	 UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Weapons")
+	 FVector LeftHandLocation; 
+
 
 public:
 	void NativeBeginPlay() override;

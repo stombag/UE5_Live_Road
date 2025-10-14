@@ -32,6 +32,10 @@ protected: // 설정
 	FName RightHandSocketName;
 
 
+	UPROPERTY(EditDefaultsOnly, Category = "Equip")
+	FVector LeftHandLocation;
+
+
 private: // 컴퍼넌트
 	UPROPERTY(VisibleAnywhere)
 	class USceneComponent* Root;
@@ -42,6 +46,7 @@ protected:// 메쉬
 
 public:
 	FORCEINLINE const EWeaponType GetType() { return Type; }
+	FORCEINLINE FVector GetLeftHandLocation() { return LeftHandLocation; }
 
 public:	
 	ACWeapon();
@@ -60,6 +65,11 @@ public:
 
 	bool CanUnequip();
 	void Unequip();
+
+public:
+	bool CanFire();
+	void Begin_Fire();
+	void End_Fire();
 private:
 	class ACPlayer* Owner;
 private:

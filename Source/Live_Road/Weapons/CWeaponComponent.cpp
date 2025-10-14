@@ -41,6 +41,13 @@ ACWeapon* UCWeaponComponent::GetCurrentWeapon()
 	return Weapons[(int32)CurrentType];
 }
 
+FVector UCWeaponComponent::GetLeftHandLocation()
+{
+	CheckNullResult(GetCurrentWeapon(), FVector::ZeroVector);
+
+	return GetCurrentWeapon()->GetLeftHandLocation();
+}
+
 void UCWeaponComponent::SetUnarmdMode()
 {
 	CheckFalse(GetCurrentWeapon()->CanUnequip());
@@ -92,6 +99,22 @@ void UCWeaponComponent::End_Equip()
 {
 	CheckNull(GetCurrentWeapon());
 	GetCurrentWeapon()->End_Equip();
+}
+
+void UCWeaponComponent::Begin_Fire()
+{
+	CheckNull(GetCurrentWeapon());
+	CheckFalse(GetCurrentWeapon()->CanFire());
+
+	GetCurrentWeapon()->Begin_Fire();
+}
+
+void UCWeaponComponent::End_Fire()
+{
+
+	CheckNull(GetCurrentWeapon());
+	GetCurrentWeapon()->End_Fire();
+
 }
 
 

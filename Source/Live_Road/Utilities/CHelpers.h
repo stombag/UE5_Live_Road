@@ -9,10 +9,10 @@
 #define CheckTrueResult(x,y) {if(x==true)return y;}
 //포인터의 경우 : x가 nullptr이면 종료한다. 
 #define CheckFalse(x) {if(x==false) return;}
-#define ChcdkFalseResult(x,y) {if(x==false)return y;}
+#define CheckFalseResult(x,y) {if(x==false)return y;}
 
 #define CheckNull(x){if(x==nullptr) return;}
-#define ChcdkNullResult(x,y) {if(x==nullptr)return y;}
+#define CheckNullResult(x,y) {if(x==nullptr)return y;}
 // 매크로는 한줄이여야한다. 그래서 역슬래쉬를 사용한다.역슬레위는 한줄로 생각하겠다는것과 같다.
 /* 그래서 매크로에서 한줄 이상일때  \  을 사용해서 한줄로 만든다.*/
 #define CreateTextRenderComponent()\
