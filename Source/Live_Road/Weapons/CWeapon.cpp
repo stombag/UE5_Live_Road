@@ -102,10 +102,13 @@ void ACWeapon::Begin_Fire()
 
 	if (hitResult.bBlockingHit)
 	{
+	
+		FRotator rotator = (-hitResult.ImpactNormal).Rotation();
 		// 실제로는 그려지고 있지만 화면 사이즈로 보이지 않는다
-		UDecalComponent* decal= UGameplayStatics::SpawnDecalAtLocation(GetWorld(), HitDecal, FVector(5), hitResult.Location, FRotator(-90, 0, 0), 10);
+		UDecalComponent* decal= UGameplayStatics::SpawnDecalAtLocation(GetWorld(), HitDecal, FVector(5), hitResult.Location,rotator, 10);
 		// 그래서 스크린 사이즈에 의해 페이드 가려지는데 그걸 끄는거다
 		decal->SetFadeScreenSize(0); 
+
 	}
 
 
