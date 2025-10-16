@@ -8,6 +8,7 @@
 #include "Animation/AnimMontage.h"
 #include "Camera/CameraComponent.h"
 #include "Materials/MaterialInstanceConstant.h"
+#include "Particles/ParticleSystem.h"
 ACWeapon::ACWeapon()
 {
 	PrimaryActorTick.bCanEverTick = true;
@@ -16,6 +17,7 @@ ACWeapon::ACWeapon()
 	CHelpers::CreateComponent<USkeletalMeshComponent>(this, &Mesh, "Mesh", Root);
 
 	CHelpers::GetAsset<UMaterialInstanceConstant>(&HitDecal, "/Script/Engine.MaterialInstanceConstant'/Game/Materials/M_Decal_Inst.M_Decal_Inst'");
+	CHelpers::GetAsset<UParticleSystem>(&HitParticle, "/Script/Engine.ParticleSystem'/Game/Effects/P_Impact_Default.P_Impact_Default'");
 }
 
 void ACWeapon::BeginPlay()
@@ -103,12 +105,20 @@ void ACWeapon::Begin_Fire()
 	if (hitResult.bBlockingHit)
 	{
 	
+		if (!!HitDecal) {
 		FRotator rotator = (-hitResult.ImpactNormal).Rotation();
 		// 실제로는 그려지고 있지만 화면 사이즈로 보이지 않는다
 		UDecalComponent* decal= UGameplayStatics::SpawnDecalAtLocation(GetWorld(), HitDecal, FVector(5), hitResult.Location,rotator, 10);
 		// 그래서 스크린 사이즈에 의해 페이드 가려지는데 그걸 끄는거다
 		decal->SetFadeScreenSize(0); 
 
+		}
+
+		if (!!HitParticle) {
+
+			FRotator rotator = UKismetMathLibrary::FindLookAtRotation(hitResult.Location, hitResult.TraceStart);
+			UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), HitParticle, hitResult.Location, rotator);
+		}
 	}
 
 

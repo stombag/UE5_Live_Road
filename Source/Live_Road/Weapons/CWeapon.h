@@ -44,6 +44,9 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Hit")
 	class UMaterialInstanceConstant* HitDecal;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Hit")
+	class UParticleSystem* HitParticle;
+
 protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Fire")
 	float RecoilAnlgle;
