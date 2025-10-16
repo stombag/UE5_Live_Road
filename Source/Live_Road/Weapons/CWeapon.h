@@ -34,6 +34,20 @@ protected: // 설정
 
 	UPROPERTY(EditDefaultsOnly, Category = "Equip")
 	FVector LeftHandLocation;
+	//IA 적용할때 넣을값
+
+protected:
+	UPROPERTY(EditDefaultsOnly, Category = "Hit")
+	float HitDistance = 3000;
+	// 발사되는 거리 
+
+	UPROPERTY(EditDefaultsOnly, Category = "Hit")
+	class UMaterialInstanceConstant* HitDecal;
+
+protected:
+	UPROPERTY(EditDefaultsOnly, Category = "Fire")
+	float RecoilAnlgle;
+	// 에임 흔들리는거
 
 
 private: // 컴퍼넌트
@@ -70,6 +84,7 @@ public:
 	bool CanFire();
 	void Begin_Fire();
 	void End_Fire();
+
 private:
 	class ACPlayer* Owner;
 private:

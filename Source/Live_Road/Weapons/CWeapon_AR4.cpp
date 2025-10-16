@@ -21,5 +21,10 @@ ACWeapon_AR4::ACWeapon_AR4()
 	}
 
 
+	//Fire
+	{
+		RecoilAnlgle = 0.75f;
+	}
+
 
 }
