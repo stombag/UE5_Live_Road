@@ -59,6 +59,8 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Fire") 
 	class UParticleSystem* EJectParticle;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Fire") 
+	class USoundWave* FireSound;
 
 private: // ÄÄÆÛ³ÍÆ®
 	UPROPERTY(VisibleAnywhere)

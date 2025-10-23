@@ -9,6 +9,8 @@
 #include "Camera/CameraComponent.h"
 #include "Materials/MaterialInstanceConstant.h"
 #include "Particles/ParticleSystem.h"
+#include "Sound/SoundWave.h"
+
 ACWeapon::ACWeapon()
 {
 	PrimaryActorTick.bCanEverTick = true;
@@ -21,6 +23,7 @@ ACWeapon::ACWeapon()
 	CHelpers::GetAsset<UParticleSystem>(&FlashParticle, "/Script/Engine.ParticleSystem'/Game/Effects/P_Impact_Muzzle.P_Impact_Muzzle'");
 		
 	CHelpers::GetAsset<UParticleSystem>(&EJectParticle, "/Script/Engine.ParticleSystem'/Game/Effects/P_Eject_bullet.P_Eject_bullet'");
+	CHelpers::GetAsset<USoundWave>(&FireSound, "/Script/Engine.SoundWave'/Game/Audio/GunsSound/5_56_M4_Rifle/5_56_M4_Rifle_Gunshots/5_56_M4_Rifle_-__Gunshot_A_001.5_56_M4_Rifle_-__Gunshot_A_001'");
 }
 
 
@@ -131,7 +134,9 @@ void ACWeapon::Begin_Fire()
 		UGameplayStatics::SpawnEmitterAttached(FlashParticle, Mesh, "Muzzle", FVector::ZeroVector, FRotator::ZeroRotator, EAttachLocation::KeepRelativeOffset);
 	if (!!EJectParticle)
 		UGameplayStatics::SpawnEmitterAttached(EJectParticle, Mesh, "EJect", FVector::ZeroVector, FRotator::ZeroRotator, EAttachLocation::KeepRelativeOffset);
-
+	FVector muzzleLocaion = Mesh->GetSocketLocation("Muzzle");
+	if (!!FireSound)
+		UGameplayStatics::SpawnSoundAtLocation(GetWorld(), FireSound, muzzleLocaion);
 
 }
 
