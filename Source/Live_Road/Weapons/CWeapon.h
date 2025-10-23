@@ -47,10 +47,17 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Hit")
 	class UParticleSystem* HitParticle;
 
+
 protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Fire")
 	float RecoilAnlgle;
 	// 에임 흔들리는거
+
+	UPROPERTY(EditDefaultsOnly, Category = "Fire") 
+	class UParticleSystem* FlashParticle;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Fire") 
+	class UParticleSystem* EJectParticle;
 
 
 private: // 컴퍼넌트
