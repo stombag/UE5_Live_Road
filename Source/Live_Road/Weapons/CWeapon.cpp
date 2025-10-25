@@ -83,6 +83,8 @@ bool ACWeapon::CanEquip()
 {
 	bool b = false;
 	b |= bEquipping;
+	b |= bFiring;
+
 	return b == false;
 }
 
@@ -110,6 +112,8 @@ bool ACWeapon::CanUnequip()
 {	
 	bool b = false;
 	b |= bEquipping;
+	b |= bFiring;
+
 	return b == false;
 }
 
@@ -123,13 +127,34 @@ bool ACWeapon::CanFire()
 {
 	bool b = false;
 	b |= bEquipping;
+	b |= bFiring;
+
 	return b == false;
 }
 
 void ACWeapon::Begin_Fire()
 {
+	bFiring = true;
+	if (bAutoFire) {
 
-	UCameraComponent* camera = CHelpers::GetComponent<UCameraComponent>(Owner);
+		GetWorld()->GetTimerManager().SetTimer(AutoFireHandle, this, &ACWeapon::OnFiring, AutoFireInterval, true, 0.0f);
+		return;
+	}
+	OnFiring();
+}
+
+void ACWeapon::End_Fire()
+{
+	CheckFalse(bFiring);
+	if (GetWorld()->GetTimerManager().IsTimerActive(AutoFireHandle))
+		GetWorld()->GetTimerManager().ClearTimer(AutoFireHandle);
+	bFiring = false;
+
+}
+
+void ACWeapon::OnFiring()
+{
+		UCameraComponent* camera = CHelpers::GetComponent<UCameraComponent>(Owner);
 	FVector direction = camera->GetForwardVector();
 	FTransform transform = camera->GetComponentToWorld();
 
@@ -172,11 +197,6 @@ void ACWeapon::Begin_Fire()
 	FVector muzzleLocaion = Mesh->GetSocketLocation("Muzzle");
 	if (!!FireSound)
 		UGameplayStatics::SpawnSoundAtLocation(GetWorld(), FireSound, muzzleLocaion);
-
-}
-
-void ACWeapon::End_Fire()
-{
 
 
 }

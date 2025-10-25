@@ -90,6 +90,8 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Fire") 
 	float RecoilAngle;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Fire") 
+	float AutoFireInterval;
 protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Aim") 
 	FWeaponAimData BaseData;
@@ -144,6 +146,10 @@ public:
 	void Begin_Fire();
 	void End_Fire();
 
+private:
+	UFUNCTION()
+	void OnFiring();
+
 public:
 	bool CanAim();
 	void Begin_Aim();
@@ -159,4 +165,9 @@ private:
 private:
 	bool bEquipping;
 	bool bInAim;
+	bool bFiring;
+	bool bAutoFire = true;
+private:
+	FTimerHandle AutoFireHandle;
+	
 };
