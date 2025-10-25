@@ -48,7 +48,7 @@ public:
 			return;
 
 		}
-	
+
 		InActor->SetRootComponent(*OutComponent);
 
 	}
@@ -74,24 +74,38 @@ public:
 		*OutClass = asset.Class;
 
 	}
-	static void AttachTo(AActor* InActor, USceneComponent* InParaent, FName InSocketName) 
+	static void AttachTo(AActor* InActor, USceneComponent* InParaent, FName InSocketName)
 	{
 		InActor->AttachToComponent(InParaent, FAttachmentTransformRules(EAttachmentRule::KeepRelative, true), InSocketName);
 
 	}
 
-	
+
 	static void Log() {
 		UE_LOG(LogTemp, Warning, TEXT("Hello Check"));
 	}
 
 
-	
+
 
 	template<typename T>
-	static T* GetComponent(AActor* InActor) 
+	static T* GetComponent(AActor* InActor)
 	{
-
 		return Cast<T>(InActor->GetComponentByClass(T::StaticClass()));
 	}
-}; 
+
+	template<typename T>
+	static T* GetComponent(AActor* InActor, const FString& InName)
+	{
+		TArray<T*> components;
+		InActor->GetComponents<T>(components);
+
+		for (T* component : components)
+		{
+			if (component->GetName() == InName)
+				return component;
+		}
+		return nullptr;
+	}
+
+};

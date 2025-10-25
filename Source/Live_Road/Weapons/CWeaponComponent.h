@@ -53,6 +53,11 @@ public:
 public:
 	void Begin_Fire();
 	void End_Fire();
+
+public:
+	void Begin_Aim();
+	void End_Aim();
+
 public:
 	FWeaponTypeChanged OnWeaponTypeChanged;
 

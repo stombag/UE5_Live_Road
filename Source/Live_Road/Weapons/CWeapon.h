@@ -8,6 +8,31 @@
 #include "CWeapon.generated.h"
 
 
+USTRUCT()
+struct FWeaponAimData
+{
+	GENERATED_BODY()
+	// 언리얼에서는 자료형을 묶어서 관리하기 위해서 구조체에 똑같이 GENERATED_BODY() 을 넣는다.
+
+public:
+	UPROPERTY(EditAnywhere)
+	float TargetArmLength;
+	
+	UPROPERTY(EditAnywhere)
+	FVector SoketOffset;
+
+	UPROPERTY(EditAnywhere)
+	float FielOfView;
+
+	UPROPERTY(EditAnywhere)
+	bool bEnableCameraLag;
+public:
+	
+	void SetData(class ACharacter* InOwner);
+	void SetDataByNoneCurve(class ACharacter* InOwner);
+};
+
+
 UCLASS(Abstract, NotBlueprintable)
 class LIVE_ROAD_API ACWeapon : public AActor
 {
@@ -62,6 +87,24 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Fire") 
 	class USoundWave* FireSound;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Fire") 
+	float RecoilAngle;
+
+protected:
+	UPROPERTY(EditDefaultsOnly, Category = "Aim") 
+	FWeaponAimData BaseData;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Aim") 
+	FWeaponAimData AimData;
+
+	UPROPERTY(EditDefaultsOnly, Category ="Aim")
+	class UCurveFloat* AimCurve;
+
+
+	UPROPERTY(EditDefaultsOnly, Category ="Aim")
+	float AimingSpeed = 200;
+
+
 private: // 컴퍼넌트
 	UPROPERTY(VisibleAnywhere)
 	class USceneComponent* Root;
@@ -69,6 +112,10 @@ private: // 컴퍼넌트
 protected:// 메쉬	
 	UPROPERTY(VisibleAnywhere)
 	class USkeletalMeshComponent* Mesh;
+protected:
+	UPROPERTY(VisibleAnywhere)
+	class UTimelineComponent* Timeline;
+
 
 public:
 	FORCEINLINE const EWeaponType GetType() { return Type; }
@@ -97,9 +144,19 @@ public:
 	void Begin_Fire();
 	void End_Fire();
 
+public:
+	bool CanAim();
+	void Begin_Aim();
+	void End_Aim();
+
+private:
+	UFUNCTION()
+	void OnAiming(float Output);
+
 private:
 	class ACPlayer* Owner;
+
 private:
 	bool bEquipping;
-
+	bool bInAim;
 };

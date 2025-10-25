@@ -118,3 +118,18 @@ void UCWeaponComponent::End_Fire()
 }
 
 
+void UCWeaponComponent::Begin_Aim()
+{
+	CheckNull(GetCurrentWeapon());
+	CheckFalse(GetCurrentWeapon()->CanAim());
+	GetCurrentWeapon()->Begin_Aim();
+
+}
+
+void UCWeaponComponent::End_Aim()
+{
+	CheckNull(GetCurrentWeapon());
+	GetCurrentWeapon()->End_Aim();
+}
+
+

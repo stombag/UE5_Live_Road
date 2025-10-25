@@ -5,12 +5,30 @@
 #include "../Global.h"
 #include "Components/SkeletalMeshComponent.h"
 #include "Components/DecalComponent.h"
+#include "Components/TimelineComponent.h"
 #include "Animation/AnimMontage.h"
 #include "Camera/CameraComponent.h"
 #include "Materials/MaterialInstanceConstant.h"
 #include "Particles/ParticleSystem.h"
 #include "Sound/SoundWave.h"
+#include "GameFramework/SpringArmComponent.h"
+void FWeaponAimData::SetData(ACharacter* InOwner)
+{
+	USpringArmComponent* springArm = CHelpers::GetComponent<USpringArmComponent>(InOwner);
+	springArm->TargetArmLength = TargetArmLength;
+	springArm->SocketOffset = SoketOffset;
+	springArm->bEnableCameraLag = bEnableCameraLag;
+}
 
+
+void FWeaponAimData::SetDataByNoneCurve(ACharacter* InOwner)
+{
+	SetData(InOwner);
+	UCameraComponent* camera = CHelpers::GetComponent<UCameraComponent>(InOwner);
+	camera->FieldOfView = FielOfView;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ACWeapon::ACWeapon()
 {
 	PrimaryActorTick.bCanEverTick = true;
@@ -18,12 +36,17 @@ ACWeapon::ACWeapon()
 	CHelpers::CreateComponent<USceneComponent>(this, &Root, "Root");
 	CHelpers::CreateComponent<USkeletalMeshComponent>(this, &Mesh, "Mesh", Root);
 
+	CHelpers::CreateActorComponent<UTimelineComponent>(this, &Timeline, "Timeline");
+
 	CHelpers::GetAsset<UMaterialInstanceConstant>(&HitDecal, "/Script/Engine.MaterialInstanceConstant'/Game/Materials/M_Decal_Inst.M_Decal_Inst'");
 	CHelpers::GetAsset<UParticleSystem>(&HitParticle, "/Script/Engine.ParticleSystem'/Game/Effects/P_Impact_Default.P_Impact_Default'");
 	CHelpers::GetAsset<UParticleSystem>(&FlashParticle, "/Script/Engine.ParticleSystem'/Game/Effects/P_Impact_Muzzle.P_Impact_Muzzle'");
 		
 	CHelpers::GetAsset<UParticleSystem>(&EJectParticle, "/Script/Engine.ParticleSystem'/Game/Effects/P_Eject_bullet.P_Eject_bullet'");
 	CHelpers::GetAsset<USoundWave>(&FireSound, "/Script/Engine.SoundWave'/Game/Audio/GunsSound/5_56_M4_Rifle/5_56_M4_Rifle_Gunshots/5_56_M4_Rifle_-__Gunshot_A_001.5_56_M4_Rifle_-__Gunshot_A_001'");
+
+	CHelpers::GetAsset<UCurveFloat>(&AimCurve, "/Script/Engine.CurveFloat'/Game/Blueprints/Weapons/Cureve_Aim.Cureve_Aim'");
+
 }
 
 
@@ -36,6 +59,18 @@ void ACWeapon::BeginPlay()
 
 	if (HolsterSocketName.IsValid())
 		CHelpers::AttachTo(this, Owner->GetMesh(), HolsterSocketName);
+
+	BaseData.SetDataByNoneCurve(Owner);
+
+	if (!!AimCurve) {
+		FOnTimelineFloat timeline;
+		timeline.BindUFunction(this, "OnAiming");
+
+		Timeline->AddInterpFloat(AimCurve, timeline);
+		Timeline->SetLooping(false);
+		Timeline->SetPlayRate(AimingSpeed);
+	}
+
 }
 
 void ACWeapon::Tick(float DeltaTime)
@@ -144,5 +179,48 @@ void ACWeapon::End_Fire()
 {
 
 
+}
+
+bool ACWeapon::CanAim()
+{
+	bool b = false;
+	b |= bEquipping;
+	b |= bInAim;
+
+	return  b== false;
+}
+
+void ACWeapon::Begin_Aim()
+{
+	bInAim = true;
+
+	if (!!AimCurve) {
+		Timeline->PlayFromStart();
+		AimData.SetData(Owner);
+		return;
+	}
+	AimData.SetDataByNoneCurve(Owner);
+
+
+} 
+
+void ACWeapon::End_Aim()
+{
+	CheckFalse(bInAim);
+	bInAim = false;
+
+	if (!!AimCurve) {
+		Timeline->ReverseFromEnd();
+		BaseData.SetData(Owner);
+		return;
+	}
+	BaseData.SetDataByNoneCurve(Owner);
+}
+
+void ACWeapon::OnAiming(float Output)
+{
+	UCameraComponent* camera = CHelpers::GetComponent<UCameraComponent>(Owner);
+
+	camera->FieldOfView = FMath::Lerp(AimData.FielOfView, BaseData.FielOfView,Output);
 }
 
