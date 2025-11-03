@@ -92,6 +92,12 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Fire") 
 	float AutoFireInterval;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Fire") 
+	TSubclassOf<class UCameraShakeBase> CameraShakeClass;
+
+
+
 protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Aim") 
 	FWeaponAimData BaseData;

@@ -12,6 +12,8 @@
 #include "Particles/ParticleSystem.h"
 #include "Sound/SoundWave.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "Camera/CameraShakeBase.h"
+
 void FWeaponAimData::SetData(ACharacter* InOwner)
 {
 	USpringArmComponent* springArm = CHelpers::GetComponent<USpringArmComponent>(InOwner);
@@ -19,8 +21,7 @@ void FWeaponAimData::SetData(ACharacter* InOwner)
 	springArm->SocketOffset = SoketOffset;
 	springArm->bEnableCameraLag = bEnableCameraLag;
 }
-
-
+ 
 void FWeaponAimData::SetDataByNoneCurve(ACharacter* InOwner)
 {
 	SetData(InOwner);
@@ -46,6 +47,8 @@ ACWeapon::ACWeapon()
 	CHelpers::GetAsset<USoundWave>(&FireSound, "/Script/Engine.SoundWave'/Game/Audio/GunsSound/5_56_M4_Rifle/5_56_M4_Rifle_Gunshots/5_56_M4_Rifle_-__Gunshot_A_001.5_56_M4_Rifle_-__Gunshot_A_001'");
 
 	CHelpers::GetAsset<UCurveFloat>(&AimCurve, "/Script/Engine.CurveFloat'/Game/Blueprints/Weapons/Cureve_Aim.Cureve_Aim'");
+	CHelpers::GetClass<UCameraShakeBase>(&CameraShakeClass, "/Script/Engine.Blueprint'/Game/Blueprints/Weapons/BP_CamaraShake_AR4.BP_CamaraShake_AR4_C'");
+
 
 }
 
@@ -198,6 +201,16 @@ void ACWeapon::OnFiring()
 	if (!!FireSound)
 		UGameplayStatics::SpawnSoundAtLocation(GetWorld(), FireSound, muzzleLocaion);
 
+	if (!!CameraShakeClass) {
+
+		UGameplayStatics::GetPlayerCameraManager(GetWorld(), 0);
+
+		APlayerController* controller = Owner->GetController<APlayerController>();
+
+		if (!!controller)
+			controller->PlayerCameraManager->StartCameraShake(CameraShakeClass);
+
+	}
 
 }
 
