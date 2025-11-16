@@ -96,6 +96,12 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Fire") 
 	TSubclassOf<class UCameraShakeBase> CameraShakeClass;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Fire") 
+	float RecoilPitch; // ÃÑ±â ¹Ýµ¿
+	
+	UPROPERTY(EditDefaultsOnly, Category = "Fire") 
+	TSubclassOf<class ACBullet> BulletClass;
+
 
 
 protected:

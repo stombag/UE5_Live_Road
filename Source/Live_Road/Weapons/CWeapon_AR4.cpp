@@ -23,8 +23,8 @@ ACWeapon_AR4::ACWeapon_AR4()
 	{
 		BaseData.TargetArmLength = 200;
 		BaseData.SoketOffset = FVector(0, 50, 15);
-		BaseData.bEnableCameraLag = true;
 		BaseData.FielOfView = 90;
+		BaseData.bEnableCameraLag = true;
 
 		AimData.TargetArmLength = 80;
 		AimData.SoketOffset = FVector(0, 55, 10);
@@ -38,7 +38,7 @@ ACWeapon_AR4::ACWeapon_AR4()
 	{
 		RecoilAnlgle = 0.75f;
 		AutoFireInterval = 0.15f;
-	}
+		RecoilPitch = 0.5f; }
 
 
 }

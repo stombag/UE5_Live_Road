@@ -3,6 +3,7 @@
 #include "../Weapons/CWeapon.h"
 #include "../Characters/CPlayer.h"
 #include "../Global.h"
+#include "CBullet.h"
 #include "Components/SkeletalMeshComponent.h"
 #include "Components/DecalComponent.h"
 #include "Components/TimelineComponent.h"
@@ -47,7 +48,9 @@ ACWeapon::ACWeapon()
 	CHelpers::GetAsset<USoundWave>(&FireSound, "/Script/Engine.SoundWave'/Game/Audio/GunsSound/5_56_M4_Rifle/5_56_M4_Rifle_Gunshots/5_56_M4_Rifle_-__Gunshot_A_001.5_56_M4_Rifle_-__Gunshot_A_001'");
 
 	CHelpers::GetAsset<UCurveFloat>(&AimCurve, "/Script/Engine.CurveFloat'/Game/Blueprints/Weapons/Cureve_Aim.Cureve_Aim'");
+
 	CHelpers::GetClass<UCameraShakeBase>(&CameraShakeClass, "/Script/Engine.Blueprint'/Game/Blueprints/Weapons/BP_CamaraShake_AR4.BP_CamaraShake_AR4_C'");
+	CHelpers::GetClass<ACBullet>(&BulletClass, "/Script/Engine.Blueprint'/Game/Blueprints/Weapons/BP_CBullet.BP_CBullet_C'");
 
 
 }
@@ -94,6 +97,7 @@ bool ACWeapon::CanEquip()
 void ACWeapon::Equip()
 {
 	bEquipping = true;
+
 	if (!!EquipMontage) {
 		Owner->PlayAnimMontage(EquipMontage, EquipMontage_PlayRate);
 	}
@@ -157,7 +161,7 @@ void ACWeapon::End_Fire()
 
 void ACWeapon::OnFiring()
 {
-		UCameraComponent* camera = CHelpers::GetComponent<UCameraComponent>(Owner);
+	UCameraComponent* camera = CHelpers::GetComponent<UCameraComponent>(Owner);
 	FVector direction = camera->GetForwardVector();
 	FTransform transform = camera->GetComponentToWorld();
 
@@ -202,14 +206,29 @@ void ACWeapon::OnFiring()
 		UGameplayStatics::SpawnSoundAtLocation(GetWorld(), FireSound, muzzleLocaion);
 
 	if (!!CameraShakeClass) {
-
-		UGameplayStatics::GetPlayerCameraManager(GetWorld(), 0);
+		//카메라 컨트롤이 변경 될 수 있기 때문에 아래 코드는 잘 사용 되지 않는다 그렇기 때문에 하나씩 사용한다.
+		//UGameplayStatics::GetPlayerCameraManager(GetWorld(), 0); 
 
 		APlayerController* controller = Owner->GetController<APlayerController>();
 
-		if (!!controller)
+		if (!!controller)//카메라체크
 			controller->PlayerCameraManager->StartCameraShake(CameraShakeClass);
 
+	}
+
+	Owner->AddControllerPitchInput(-RecoilPitch * UKismetMathLibrary::RandomFloatInRange(0.8f, 1.2f));
+
+	if (!!BulletClass)
+	{
+		FVector location = Mesh->GetSocketLocation("MUzzle_Bullet"); 
+
+		FActorSpawnParameters params;
+		params.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+
+		ACBullet* bullet = GetWorld()->SpawnActor<ACBullet>(BulletClass, location, direction.Rotation(), params);
+		
+		if(!!bullet)
+			bullet->Shoot(direction);
 	}
 
 }

@@ -27,9 +27,7 @@ ACPlayer::ACPlayer()
 	TSubclassOf<UCAnimInstance> animInstance;
 	CHelpers::GetClass<UCAnimInstance>(&animInstance, "/Script/Engine.AnimBlueprint'/Game/Characters/ABP_CPlayer.ABP_CPlayer_C'");
 	GetMesh()->SetAnimInstanceClass(animInstance);
-
-	bUseControllerRotationYaw = false; //z축을 사용하지 않는다
-	GetCharacterMovement()->bOrientRotationToMovement = true;
+	
 	GetCharacterMovement()->MaxWalkSpeed = 400;
 
 	SpringArm->SetRelativeLocation(FVector(0, 0, 60));
@@ -46,6 +44,8 @@ void ACPlayer::BeginPlay()
 	// 카메라 앵글 고정
 	GetController<APlayerController>()->PlayerCameraManager->ViewPitchMin = PitchAngle.X;
 	GetController<APlayerController>()->PlayerCameraManager->ViewPitchMax = PitchAngle.Y;
+
+
 
 }
 
