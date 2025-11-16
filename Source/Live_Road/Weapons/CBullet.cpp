@@ -44,7 +44,8 @@ void ACBullet::BeginPlay()
 	Super::BeginPlay();
 
 	Projectile->SetActive(false);
-	
+	Capsule->OnComponentHit.AddDynamic(this, &ACBullet::OnHit);
+	//AddDynamic 이 오류 났다면 그건 OnHit때문이다
 }
 
 void ACBullet::Shoot(const FVector& InDirection)
@@ -57,4 +58,11 @@ void ACBullet::Shoot(const FVector& InDirection)
 	Projectile->SetActive(true);
 
 }
+
+void ACBullet::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
+{
+	Destroy();
+
+}
+
 
