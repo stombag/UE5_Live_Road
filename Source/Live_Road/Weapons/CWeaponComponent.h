@@ -41,6 +41,8 @@ public:
 
 protected:
 	virtual void BeginPlay() override;
+public:
+	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction);
 private:
 	class ACWeapon* GetCurrentWeapon();
 public:

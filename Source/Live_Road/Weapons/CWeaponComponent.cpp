@@ -8,8 +8,9 @@
 
 UCWeaponComponent::UCWeaponComponent()
 {
+	
+	PrimaryComponentTick.bCanEverTick = true; 
 	CHelpers::GetClass<UCUserWidget_HUD>(&HudClass, "/Script/UMGEditor.WidgetBlueprint'/Game/Widgets/WB_HUD.WB_HUD_C'");
-
 
 }
 
@@ -43,6 +44,23 @@ void UCWeaponComponent::BeginPlay()
 
 	}
 
+}
+
+
+void UCWeaponComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) {
+
+
+	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+
+	CheckNull(GetCurrentWeapon());
+
+	if (!!Hud) {
+		uint8 currCount = GetCurrentWeapon()->GetCurrentMagazineCount();
+		uint8 maxCount = GetCurrentWeapon()->GetMaxMagazineCount();
+
+		Hud->UpdateMagazineCount(currCount, maxCount);
+
+	}
 }
 
 ACWeapon* UCWeaponComponent::GetCurrentWeapon()
@@ -100,8 +118,8 @@ void UCWeaponComponent::SetMode(EWeaponType InType)
 	if (!!Hud) {
 
 		Hud->SetVisibility(ESlateVisibility::Visible);
-		Hud->DrawAutoFire(Weapons[(int32)InType]->IsAutoFire());
-		
+		Hud->DrawAutoFire(Weapons[(int32)InType]->IsAutoFire());		
+		Hud->UpdateWeaponType(CurrentType);
 	}
 
 }

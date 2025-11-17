@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
+#include "../Weapons/CWeaponComponent.h"
 #include "CUserWidget_HUD.generated.h"
 
 UCLASS()
@@ -22,5 +23,14 @@ public:
 	UFUNCTION(BlueprintImplementableEvent)
 	void DrawAutoFire(bool bAutoFire);
 
+	UFUNCTION(BlueprintImplementableEvent)
+	void UpdateMagazineCount(uint8 InCurent, uint8 InMax);
 
+
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void UpdateWeaponType(EWeaponType InType);
+
+
+	 
 };

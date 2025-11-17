@@ -41,4 +41,7 @@ ACWeapon_AR4::ACWeapon_AR4()
 		RecoilPitch = 0.5f; }
 
 
+	{
+		MaxMagazineCount = 30;
+	}
 }

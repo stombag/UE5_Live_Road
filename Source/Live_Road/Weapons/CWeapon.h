@@ -118,6 +118,9 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category ="Aim")
 	float AimingSpeed = 200;
 
+protected:
+	UPROPERTY(EditDefaultsOnly, Category ="Magazine")
+	uint8 MaxMagazineCount;
 
 private: // ÄÄÆÛ³ÍÆ®
 	UPROPERTY(VisibleAnywhere)
@@ -138,6 +141,12 @@ public:
 	FORCEINLINE bool IsAutoFire() { return bAutoFire; }
 
 	FORCEINLINE FVector GetLeftHandLocation() { return LeftHandLocation; }
+
+
+public:
+
+	FORCEINLINE uint8 GetCurrentMagazineCount() { return CurrentMagazinCount; }
+	FORCEINLINE uint8 GetMaxMagazineCount() { return MaxMagazineCount; }
 
 public:	
 	ACWeapon();
@@ -189,5 +198,8 @@ private:
 	bool bAutoFire = true;
 private:
 	FTimerHandle AutoFireHandle;
-	
+private:
+	uint8 CurrentMagazinCount;
+
+ 
 };

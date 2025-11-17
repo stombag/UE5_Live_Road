@@ -77,6 +77,8 @@ void ACWeapon::BeginPlay()
 		Timeline->SetPlayRate(AimingSpeed);
 	}
 
+	CurrentMagazinCount = MaxMagazineCount; 
+
 }
 
 void ACWeapon::Tick(float DeltaTime)
@@ -132,6 +134,7 @@ void ACWeapon::Unequip()
 
 void ACWeapon::ToggleAutoFire()
 {
+	CheckTrue(bFiring);
 	bAutoFire = !bAutoFire;
 }
 
@@ -234,6 +237,13 @@ void ACWeapon::OnFiring()
 		
 		if(!!bullet)
 			bullet->Shoot(direction);
+	}
+	if (CurrentMagazinCount >= 1) {
+		CurrentMagazinCount--;
+
+	}else{
+		// ÀçÀåÀü 
+
 	}
 
 }
