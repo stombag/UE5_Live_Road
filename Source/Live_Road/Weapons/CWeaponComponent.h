@@ -22,6 +22,11 @@ private:
 	UPROPERTY(EditDefaultsOnly, Category = "Weapons")
 	TArray<TSubclassOf<class ACWeapon>> WeaponClasses;
 
+	UPROPERTY(EditDefaultsOnly, Category = "UserInterface")
+	TSubclassOf<class UCUserWidget_HUD> HudClass;
+
+
+
 public:
 
 	FORCEINLINE EWeaponType GetType() { return CurrentType; }
@@ -57,6 +62,10 @@ public:
 public:
 	void Begin_Aim();
 	void End_Aim();
+public:
+	bool InAim();
+public:
+	void ToggleAutoFire();
 
 public:
 	FWeaponTypeChanged OnWeaponTypeChanged;
@@ -66,4 +75,9 @@ private:
 private:
 	class ACPlayer* OwnerCharacter;
 	TArray<class ACWeapon*> Weapons;
+
+
+private:
+	class UCUserWidget_HUD* Hud;
+
 };

@@ -30,8 +30,8 @@ ACBullet::ACBullet()
 	Mesh->SetMaterial(0, material);
 
 
-	Projectile->InitialSpeed = 2e+4f;
-	Projectile->MaxSpeed = 2e+4f;
+	Projectile->InitialSpeed = 7000.0f;
+	Projectile->MaxSpeed = 7000.0f;
 	Projectile->ProjectileGravityScale = 0.0f;
 
 

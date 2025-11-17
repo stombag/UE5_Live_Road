@@ -130,6 +130,11 @@ void ACWeapon::Unequip()
 		CHelpers::AttachTo(this, Owner->GetMesh(), HolsterSocketName);
 }
 
+void ACWeapon::ToggleAutoFire()
+{
+	bAutoFire = !bAutoFire;
+}
+
 bool ACWeapon::CanFire()
 {
 	bool b = false;

@@ -133,6 +133,10 @@ protected:
 
 public:
 	FORCEINLINE const EWeaponType GetType() { return Type; }
+
+	FORCEINLINE bool InAim() { return bInAim; }
+	FORCEINLINE bool IsAutoFire() { return bAutoFire; }
+
 	FORCEINLINE FVector GetLeftHandLocation() { return LeftHandLocation; }
 
 public:	
@@ -152,6 +156,10 @@ public:
 
 	bool CanUnequip();
 	void Unequip();
+
+public:
+	void ToggleAutoFire();
+
 
 public:
 	bool CanFire();
