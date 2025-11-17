@@ -1,5 +1,3 @@
-
-
 #include "../Weapons/CWeapon.h"
 #include "../Characters/CPlayer.h"
 #include "../Global.h"
@@ -92,6 +90,7 @@ bool ACWeapon::CanEquip()
 	bool b = false;
 	b |= bEquipping;
 	b |= bFiring;
+	b |= bReload;
 
 	return b == false;
 }
@@ -122,6 +121,7 @@ bool ACWeapon::CanUnequip()
 	bool b = false;
 	b |= bEquipping;
 	b |= bFiring;
+	b |= bReload;
 
 	return b == false;
 }
@@ -143,6 +143,7 @@ bool ACWeapon::CanFire()
 	bool b = false;
 	b |= bEquipping;
 	b |= bFiring;
+	b |= bReload;
 
 	return b == false;
 }
@@ -243,6 +244,10 @@ void ACWeapon::OnFiring()
 
 	}else{
 		// ¿Á¿Â¿¸ 
+		if (CanReload())
+		{
+			Reload();
+		}
 
 	}
 
@@ -253,6 +258,7 @@ bool ACWeapon::CanAim()
 	bool b = false;
 	b |= bEquipping;
 	b |= bInAim;
+	b |= bReload;
 
 	return  b== false;
 }
@@ -289,5 +295,23 @@ void ACWeapon::OnAiming(float Output)
 	UCameraComponent* camera = CHelpers::GetComponent<UCameraComponent>(Owner);
 
 	camera->FieldOfView = FMath::Lerp(AimData.FielOfView, BaseData.FielOfView,Output);
+}
+
+bool ACWeapon::CanReload()
+{
+	bool b = false;
+	b |= bEquipping;
+	b |= bReload;
+	return b == false;
+
+}
+void ACWeapon::Reload() 
+{
+	bReload = true;
+	End_Aim();
+	End_Fire();
+
+	if (!!ReloadMontage)
+		Owner->PlayAnimMontage(ReloadMontage, ReloadMontage_PlayRate);
 }
 

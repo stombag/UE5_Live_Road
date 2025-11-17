@@ -122,6 +122,14 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category ="Magazine")
 	uint8 MaxMagazineCount;
 
+	UPROPERTY(EditDefaultsOnly, Category ="Magazine")
+	class UAnimMontage* ReloadMontage;
+
+	UPROPERTY(EditDefaultsOnly, Category ="Magazine")
+	float ReloadMontage_PlayRate = 1;
+
+
+
 private: // ÄÄÆÛ³ÍÆ®
 	UPROPERTY(VisibleAnywhere)
 	class USceneComponent* Root;
@@ -188,6 +196,10 @@ private:
 	UFUNCTION()
 	void OnAiming(float Output);
 
+public:
+	bool CanReload();
+	void Reload();
+
 private:
 	class ACPlayer* Owner;
 
@@ -195,6 +207,7 @@ private:
 	bool bEquipping;
 	bool bInAim;
 	bool bFiring;
+	bool bReload;
 	bool bAutoFire = true;
 private:
 	FTimerHandle AutoFireHandle;

@@ -3,6 +3,9 @@
 #include "../Weapons/CWeapon_AR4.h"
 #include "../Global.h"
 #include "Components/SkeletalMeshComponent.h"
+#include "Animation/AnimMontage.h"
+
+
 ACWeapon_AR4::ACWeapon_AR4()
 {
 	Type = EWeaponType::AR4;
@@ -40,8 +43,10 @@ ACWeapon_AR4::ACWeapon_AR4()
 		AutoFireInterval = 0.15f;
 		RecoilPitch = 0.5f; }
 
-
+	//Magazine
 	{
 		MaxMagazineCount = 30;
+		CHelpers::GetAsset<UAnimMontage>(&ReloadMontage, "/Script/Engine.AnimMontage'/Game/Characters/Montages/MM_Rifle_Reload_Montage.MM_Rifle_Reload_Montage'");
+		ReloadMontage_PlayRate = 1.5f;
 	}
 }
