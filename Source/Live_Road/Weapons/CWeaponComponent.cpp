@@ -4,8 +4,6 @@
 #include "../Characters/CPlayer.h"
 #include "../Widgets/CUserWidget_HUD.h"	
 #include "GameFramework/PlayerController.h"
- 
-
 UCWeaponComponent::UCWeaponComponent()
 {
 	
@@ -193,6 +191,13 @@ void UCWeaponComponent::ToggleAutoFire() {
 	if (!!Hud)
 		Hud->DrawAutoFire(GetCurrentWeapon()->IsAutoFire());
 
+}
+void UCWeaponComponent::Reload()
+{
+
+	CheckNull(GetCurrentWeapon());
+	CheckFalse(GetCurrentWeapon()->CanReload());
+	GetCurrentWeapon()->Reload();
 }
 void UCWeaponComponent::Eject_Magazine()
 {

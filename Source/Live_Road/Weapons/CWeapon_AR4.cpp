@@ -4,7 +4,7 @@
 #include "../Global.h"
 #include "Components/SkeletalMeshComponent.h"
 #include "Animation/AnimMontage.h"
-
+#include "CMagazine.h"
 
 ACWeapon_AR4::ACWeapon_AR4()
 {
@@ -49,6 +49,8 @@ ACWeapon_AR4::ACWeapon_AR4()
 		CHelpers::GetAsset<UAnimMontage>(&ReloadMontage, "/Script/Engine.AnimMontage'/Game/Characters/Montages/MM_Rifle_Reload_Montage.MM_Rifle_Reload_Montage'");
 		ReloadMontage_PlayRate = 1.5f;
 		HideMagazinBoneName = "b_gun_mag";
+		CHelpers::GetClass<ACMagazine>(&MagazineClass, "/Script/Engine.Blueprint'/Game/Blueprints/Weapons/BP_CMagazine_AR4.BP_CMagazine_AR4_C'");
+		SpawnMagazineSocketName = "Rifle_Magazine";
 
 	}
 }

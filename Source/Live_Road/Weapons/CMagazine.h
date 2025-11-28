@@ -1,5 +1,3 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
 
 #include "CoreMinimal.h"
@@ -10,6 +8,16 @@ UCLASS()
 class LIVE_ROAD_API ACMagazine : public AActor
 {
 	GENERATED_BODY()
+
+private:
+	UPROPERTY(VisibleAnywhere)
+	class USceneComponent* Root;
+
+	UPROPERTY(VisibleAnywhere)
+	class UStaticMeshComponent* Full;
+
+	UPROPERTY(VisibleAnywhere)
+	class UStaticMeshComponent* Empty;
 	
 public:	
 	// Sets default values for this actor's properties
@@ -20,7 +28,8 @@ protected:
 	virtual void BeginPlay() override;
 
 public:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
+	void SetEject();
 
+private:
+	bool bEject;
 };

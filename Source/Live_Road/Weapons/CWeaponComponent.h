@@ -87,5 +87,4 @@ private:
 
 private:
 	class UCUserWidget_HUD* Hud;
-
 };

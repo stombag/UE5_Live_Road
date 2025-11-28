@@ -1,13 +1,19 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "Weapons/CMagazine.h"
+#include "../Weapons/CMagazine.h"
+#include "../Global.h"
+#include "Components/StaticMeshComponent.h"
 
 // Sets default values
 ACMagazine::ACMagazine()
 {
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
+	CHelpers::CreateComponent<USceneComponent>(this, &Root, "Root");
+	CHelpers::CreateComponent<UStaticMeshComponent>(this, &Full, "Full",Root);
+	CHelpers::CreateComponent<UStaticMeshComponent>(this, &Empty, "Empty",Root);
+
+	Full->SetCollisionProfileName("Magazine");
+	Empty->SetCollisionProfileName("Magazine");
 
 }
 
@@ -15,13 +21,16 @@ ACMagazine::ACMagazine()
 void ACMagazine::BeginPlay()
 {
 	Super::BeginPlay();
+
+	if (bEject == false)
+		Full->SetVisibility(true);
 	
 }
 
-// Called every frame
-void ACMagazine::Tick(float DeltaTime)
+void ACMagazine::SetEject()
 {
-	Super::Tick(DeltaTime);
+	bEject = true;
 
+	Full->SetVisibility(false);
+	Empty->SetSimulatePhysics(true);
 }
-

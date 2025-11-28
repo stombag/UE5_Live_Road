@@ -73,6 +73,8 @@ void ACPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	PlayerInputComponent->BindAction("Aim", EInputEvent::IE_Released, Weapon, &UCWeaponComponent::End_Aim);
 	
 	PlayerInputComponent->BindAction("AutoFire", EInputEvent::IE_Pressed, Weapon, &UCWeaponComponent::ToggleAutoFire);
+
+	PlayerInputComponent->BindAction("Reload", EInputEvent::IE_Pressed, Weapon, &UCWeaponComponent::Reload);
 }
 
 void ACPlayer::OnMoveForward(float InAxisValue)

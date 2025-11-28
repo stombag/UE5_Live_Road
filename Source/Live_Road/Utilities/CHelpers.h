@@ -58,9 +58,6 @@ public:
 		*OutComponent = InActor->CreateDefaultSubobject<T>(InName);
 	}
 
-
-
-
 	template<typename T>
 	static void GetAsset(T** Outobject, FString InPath) {
 		ConstructorHelpers::FObjectFinder<T> asset(*InPath);
@@ -80,13 +77,9 @@ public:
 
 	}
 
-
 	static void Log() {
 		UE_LOG(LogTemp, Warning, TEXT("Hello Check"));
 	}
-
-
-
 
 	template<typename T>
 	static T* GetComponent(AActor* InActor)

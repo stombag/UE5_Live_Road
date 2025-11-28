@@ -12,6 +12,7 @@
 #include "Sound/SoundWave.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraShakeBase.h"
+#include "../Weapons/CMagazine.h"
 
 void FWeaponAimData::SetData(ACharacter* InOwner)
 {
@@ -239,15 +240,11 @@ void ACWeapon::OnFiring()
 		if(!!bullet)
 			bullet->Shoot(direction);
 	}
-	if (CurrentMagazinCount >= 1) {
-		CurrentMagazinCount--;
-
-	}else{
+	CurrentMagazinCount--;
+	if (CurrentMagazinCount == 0) {
 		// ÀçÀåÀü 
 		if (CanReload())
-		{
 			Reload();
-		}
 
 	}
 
@@ -321,19 +318,41 @@ void ACWeapon::Eject_Magazine()
 		Mesh->HideBoneByName(HideMagazinBoneName, EPhysBodyOp::PBO_None);
 	}
 
+	CheckNull(MagazineClass);
+
+	FTransform transform = Mesh->GetSocketTransform(HideMagazinBoneName);
+	ACMagazine* magazine = GetWorld()->SpawnActorDeferred<ACMagazine>(MagazineClass, transform, nullptr, nullptr, ESpawnActorCollisionHandlingMethod::AlwaysSpawn);
+	magazine->SetEject();
+	magazine->SetLifeSpan(5);
+	magazine->FinishSpawning(transform); 
+
 
 }
 
 void ACWeapon::Spawn_Magazine()
 {
+	CheckNull(MagazineClass);
+
+	FActorSpawnParameters params;
+	params.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+	Magazine = GetWorld()->SpawnActor<ACMagazine>(MagazineClass, params);
+	CHelpers::AttachTo(Magazine, Owner->GetMesh(), SpawnMagazineSocketName);
 }
 
 void ACWeapon::Load_Magazine()
 {
+	CurrentMagazinCount = MaxMagazineCount;
+
+	if (HideMagazinBoneName.IsValid()) {
+		Mesh->UnHideBoneByName(HideMagazinBoneName);
+	}
+	if (!!Magazine)
+		Magazine->Destroy();
 }
 
 void ACWeapon::End_Reload()
 {
+	bReload = false;
 }
 
 

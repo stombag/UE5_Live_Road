@@ -131,7 +131,12 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category ="Magazine")
 	FName HideMagazinBoneName;
 
+	UPROPERTY(EditDefaultsOnly, Category ="Magazine")
+	TSubclassOf<class ACMagazine> MagazineClass;
 
+	UPROPERTY(EditDefaultsOnly, Category ="Magazine")
+	FName SpawnMagazineSocketName;
+	
 
 private: // ÄÄÆÛ³ÍÆ®
 	UPROPERTY(VisibleAnywhere)
@@ -222,6 +227,5 @@ private:
 	FTimerHandle AutoFireHandle;
 private:
 	uint8 CurrentMagazinCount;
-
- 
+	class ACMagazine* Magazine;
 };
