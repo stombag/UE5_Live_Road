@@ -128,6 +128,9 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category ="Magazine")
 	float ReloadMontage_PlayRate = 1;
 
+	UPROPERTY(EditDefaultsOnly, Category ="Magazine")
+	FName HideMagazinBoneName;
+
 
 
 private: // ÄÄÆÛ³ÍÆ®
@@ -199,6 +202,12 @@ private:
 public:
 	bool CanReload();
 	void Reload();
+
+	void Eject_Magazine();
+	void Spawn_Magazine();
+	void Load_Magazine();
+	void End_Reload();
+
 
 private:
 	class ACPlayer* Owner;

@@ -315,3 +315,27 @@ void ACWeapon::Reload()
 		Owner->PlayAnimMontage(ReloadMontage, ReloadMontage_PlayRate);
 }
 
+void ACWeapon::Eject_Magazine()
+{
+	if (HideMagazinBoneName.IsValid()) {
+		Mesh->HideBoneByName(HideMagazinBoneName, EPhysBodyOp::PBO_None);
+	}
+
+
+}
+
+void ACWeapon::Spawn_Magazine()
+{
+}
+
+void ACWeapon::Load_Magazine()
+{
+}
+
+void ACWeapon::End_Reload()
+{
+}
+
+
+
+

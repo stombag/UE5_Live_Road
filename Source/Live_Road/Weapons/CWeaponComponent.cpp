@@ -194,6 +194,33 @@ void UCWeaponComponent::ToggleAutoFire() {
 		Hud->DrawAutoFire(GetCurrentWeapon()->IsAutoFire());
 
 }
+void UCWeaponComponent::Eject_Magazine()
+{
+
+	CheckNull(GetCurrentWeapon());
+	GetCurrentWeapon()->Eject_Magazine();
+
+}
+
+void UCWeaponComponent::Spawn_Magazine()
+{
+	CheckNull(GetCurrentWeapon());
+	GetCurrentWeapon()->Spawn_Magazine();
+}
+
+void UCWeaponComponent::Load_Magazine()
+{
+	CheckNull(GetCurrentWeapon());
+	GetCurrentWeapon()->Load_Magazine();
+}
+
+void UCWeaponComponent::End_Reload()
+{
+	CheckNull(GetCurrentWeapon());
+	GetCurrentWeapon()->End_Reload();
+}
+
+
 
 
 

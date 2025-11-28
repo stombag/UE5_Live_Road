@@ -41,12 +41,14 @@ ACWeapon_AR4::ACWeapon_AR4()
 	{
 		RecoilAnlgle = 0.75f;
 		AutoFireInterval = 0.15f;
-		RecoilPitch = 0.5f; }
+		RecoilPitch = 5.0f; }
 
 	//Magazine
 	{
 		MaxMagazineCount = 30;
 		CHelpers::GetAsset<UAnimMontage>(&ReloadMontage, "/Script/Engine.AnimMontage'/Game/Characters/Montages/MM_Rifle_Reload_Montage.MM_Rifle_Reload_Montage'");
 		ReloadMontage_PlayRate = 1.5f;
+		HideMagazinBoneName = "b_gun_mag";
+
 	}
 }
