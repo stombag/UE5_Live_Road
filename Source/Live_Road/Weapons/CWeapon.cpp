@@ -13,6 +13,7 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraShakeBase.h"
 #include "../Weapons/CMagazine.h"
+#include "../EventActor/CTargetActor.h"
 
 void FWeaponAimData::SetData(ACharacter* InOwner)
 {
@@ -205,6 +206,16 @@ void ACWeapon::OnFiring()
 			UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), HitParticle, hitResult.Location, rotator);
 		}
 		
+		// ∞˙≥· ê¨√ﬂ±‚ 
+		AActor* hitActor = hitResult.GetActor();
+		if (!!hitActor)
+		{
+			ACTargetActor* target = Cast<ACTargetActor>(hitActor);
+			if (target)
+			{
+				target->HitTarget();
+			}
+		}
 	}
 
 	if (!!FlashParticle)

@@ -72,6 +72,8 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Hit")
 	class UParticleSystem* HitParticle;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Hit")
+	class ACTargetActor* TargetActor;
 
 protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Fire")

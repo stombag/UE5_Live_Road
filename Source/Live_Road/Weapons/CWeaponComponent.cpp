@@ -198,6 +198,7 @@ void UCWeaponComponent::Reload()
 	CheckNull(GetCurrentWeapon());
 	CheckFalse(GetCurrentWeapon()->CanReload());
 	GetCurrentWeapon()->Reload();
+
 }
 void UCWeaponComponent::Eject_Magazine()
 {
