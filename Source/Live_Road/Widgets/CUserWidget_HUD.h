@@ -26,11 +26,10 @@ public:
 	UFUNCTION(BlueprintImplementableEvent)
 	void UpdateMagazineCount(uint8 InCurent, uint8 InMax);
 
-
-
 	UFUNCTION(BlueprintImplementableEvent)
 	void UpdateWeaponType(EWeaponType InType);
 
-
+	UFUNCTION(BlueprintImplementableEvent)
+	void MyScore(int32 Point);
 	 
 };

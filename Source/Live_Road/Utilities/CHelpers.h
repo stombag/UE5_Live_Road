@@ -76,11 +76,6 @@ public:
 		InActor->AttachToComponent(InParaent, FAttachmentTransformRules(EAttachmentRule::KeepRelative, true), InSocketName);
 
 	}
-
-	static void Log() {
-		UE_LOG(LogTemp, Warning, TEXT("Hello Check"));
-	}
-
 	template<typename T>
 	static T* GetComponent(AActor* InActor)
 	{
@@ -101,4 +96,19 @@ public:
 		return nullptr;
 	}
 
+	public:
+    template <typename T>
+    static void Log(const T& Value)
+    {
+        UE_LOG(LogTemp, Warning, TEXT("%s"), *ToString(Value));
+    }
+
+private:
+    // 기본 타입 변환만 지원하는 초간단 버전
+    static FString ToString(int32 v)             { return FString::FromInt(v); }
+    static FString ToString(float v)             { return FString::SanitizeFloat(v); }
+    static FString ToString(double v)            { return FString::SanitizeFloat(v); }
+    static FString ToString(const FString& v)    { return v; }
+    static FString ToString(const FName& v)      { return v.ToString(); }
+    static FString ToString(const TCHAR* v)      { return FString(v); }
 };

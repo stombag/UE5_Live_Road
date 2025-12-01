@@ -5,6 +5,9 @@
 #include "../Global.h"
 #include "../Weapons/CWeapon.h"
 #include "Components/StaticMeshComponent.h"
+#include "../Widgets/CUserWidget_HUD.h"
+#include "../Characters/CPlayer.h"
+
 // Sets default values
 ACTargetActor::ACTargetActor()
 {
@@ -19,16 +22,22 @@ ACTargetActor::ACTargetActor()
 
 void ACTargetActor::HitTarget()
 { 
-	CHelpers::Log();
-	Mesh->SetVisibility(false);
+	if (Owner == nullptr) {
+		
+		Owner = Cast<ACPlayer>(GetOwner());
+	}
+	CheckNull(Owner);
+
+	Owner->AddScore(value);
 	Destroy();
+
 }
 
 // Called when the game starts or when spawned
 void ACTargetActor::BeginPlay()
 {
 	Super::BeginPlay();
-	
+	Owner = Cast<ACPlayer>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
 }
 
 

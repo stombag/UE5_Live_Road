@@ -39,6 +39,8 @@ void UCWeaponComponent::BeginPlay()
 		 Hud = CreateWidget<UCUserWidget_HUD, APlayerController*>(OwnerCharacter->GetController<APlayerController>(), HudClass);
 		 Hud->AddToViewport();
 		 Hud->SetVisibility(ESlateVisibility::Hidden);
+		 // 어떤식으로 들어가는지 확인하기
+		 OwnerCharacter->SetHUD(Hud);
 
 	}
 

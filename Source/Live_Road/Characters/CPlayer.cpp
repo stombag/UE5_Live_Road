@@ -7,6 +7,7 @@
 #include "Components/SkeletalMeshComponent.h"
 #include "Camera/CameraComponent.h"
 #include "../Weapons/CWeaponComponent.h" 
+#include "../Widgets/CUserWidget_HUD.h"
 
 
 ACPlayer::ACPlayer()
@@ -44,8 +45,6 @@ void ACPlayer::BeginPlay()
 	// 카메라 앵글 고정
 	GetController<APlayerController>()->PlayerCameraManager->ViewPitchMin = PitchAngle.X;
 	GetController<APlayerController>()->PlayerCameraManager->ViewPitchMax = PitchAngle.Y;
-
-
 
 }
 
@@ -115,6 +114,17 @@ void ACPlayer::OffRun()
 
 	GetCharacterMovement()->MaxWalkSpeed = 400;
 }
+
+void ACPlayer::AddScore(int value)
+{
+	MyScore += value;
+	CHelpers::Log(MyScore);
+	if (Hud) {
+		Hud->MyScore(MyScore);
+	}
+
+}
+
 
 
 

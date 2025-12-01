@@ -162,7 +162,6 @@ public:
 
 
 public:
-
 	FORCEINLINE uint8 GetCurrentMagazineCount() { return CurrentMagazinCount; }
 	FORCEINLINE uint8 GetMaxMagazineCount() { return MaxMagazineCount; }
 

@@ -17,16 +17,21 @@ private:
 
 	UPROPERTY(VisibleAnywhere)
 	class UStaticMeshComponent* Mesh;
-
 	
-public:	
-	// Sets default values for this actor's properties
+
+private:
+	class ACPlayer* Owner;
+
+public:
 	ACTargetActor();
+
 public:
 	void HitTarget();
 
 protected:
-	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+public :
+	UPROPERTY(VisibleAnywhere)
+	int value= 100; 
 
 };
