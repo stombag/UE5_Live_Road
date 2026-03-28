@@ -181,6 +181,7 @@ void UCWeaponComponent::End_Aim()
 bool UCWeaponComponent::InAim()
 {
 	CheckNullResult(GetCurrentWeapon(), false);
+
 	return GetCurrentWeapon()->InAim();
 
 }

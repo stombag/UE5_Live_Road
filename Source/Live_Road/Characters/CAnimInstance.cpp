@@ -44,6 +44,7 @@ void UCAnimInstance::NativeUpdateAnimation(float DeltaSeconds)
 	CheckNull(Weapon);
 
 	bUseIK = Weapon->IsUnarmedMode() == false;
+	bInAim = Weapon->InAim();
 	LeftHandLocation = Weapon->GetLeftHandLocation();
 } 
 

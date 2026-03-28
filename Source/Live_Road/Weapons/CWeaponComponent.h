@@ -54,9 +54,11 @@ public:
 private:
 	void SetMode(EWeaponType InType);
 	void ChangeType(EWeaponType InType);
+
 public:
 	void Begin_Equip();
 	void End_Equip();
+	
 public:
 	void Begin_Fire();
 	void End_Fire();
@@ -64,10 +66,13 @@ public:
 public:
 	void Begin_Aim();
 	void End_Aim();
+
 public:
 	bool InAim();
+
 public:
 	void ToggleAutoFire();
+
 public:
 	void Reload();
 	void Eject_Magazine();
