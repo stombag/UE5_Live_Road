@@ -93,6 +93,9 @@ bool ACWeapon::CanEquip()
 	b |= bEquipping;
 	b |= bFiring;
 	b |= bReload;
+	// 달릴때 장전 X
+	if (Owner)
+        b |= Owner->IsRunning();
 
 	return b == false;
 }
@@ -124,6 +127,8 @@ bool ACWeapon::CanUnequip()
 	b |= bEquipping;
 	b |= bFiring;
 	b |= bReload;
+	if (Owner)
+        b |= Owner->IsRunning();
 
 	return b == false;
 }
@@ -146,6 +151,10 @@ bool ACWeapon::CanFire()
 	b |= bEquipping;
 	b |= bFiring;
 	b |= bReload;
+
+	//달릴때 사격 X
+	if (Owner)
+        b |= Owner->IsRunning();
 
 	return b == false;
 }
@@ -310,8 +319,10 @@ bool ACWeapon::CanReload()
 	bool b = false;
 	b |= bEquipping;
 	b |= bReload;
+	// 달릴때 장전 X
+	if (Owner)
+        b |= Owner->IsRunning();
 	return b == false;
-
 }
 void ACWeapon::Reload() 
 {

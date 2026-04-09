@@ -25,6 +25,9 @@ protected:
 
 	 UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Animation")
 	 float Pitch;
+public:
+	 UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Animation")
+	 bool bFalling; 
 
 protected:
 	 UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Weapons")

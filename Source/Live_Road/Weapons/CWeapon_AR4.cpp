@@ -41,7 +41,8 @@ ACWeapon_AR4::ACWeapon_AR4()
 	{
 		RecoilAnlgle = 0.75f;
 		AutoFireInterval = 0.15f;
-		RecoilPitch = 2.0f; }
+		RecoilPitch = 2.0f;
+	}
 
 
 	//Magazine

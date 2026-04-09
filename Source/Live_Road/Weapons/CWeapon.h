@@ -90,9 +90,6 @@ protected:
 	class USoundWave* FireSound;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Fire") 
-	float RecoilAngle;
-
-	UPROPERTY(EditDefaultsOnly, Category = "Fire") 
 	float AutoFireInterval;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Fire") 
@@ -229,4 +226,5 @@ private:
 private:
 	uint8 CurrentMagazinCount;
 	class ACMagazine* Magazine;
+
 };

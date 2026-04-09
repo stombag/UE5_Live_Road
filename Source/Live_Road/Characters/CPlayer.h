@@ -47,6 +47,7 @@ private:
 private:
 	void OnRun();
 	void OffRun();
+
 public:
 	void AddScore(int value);
 	// 어떤식으로 들어가는지 확인하기 
@@ -55,4 +56,9 @@ private:
 	UPROPERTY(EditAnywhere, Category = "HUD")
 	int MyScore;
 	class UCUserWidget_HUD* Hud;
+
+private:
+	bool bRun;
+public:
+	inline bool IsRunning() const { return bRun; }
 }; 
