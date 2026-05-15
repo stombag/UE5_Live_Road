@@ -36,21 +36,18 @@ public:
 	// 기본값은 nullptr로 전달 안하면 자동으로 RootComponentfh 된다     
 	// #추가 : OutComponent에 주소값을 넣으면 그 Component의 주소값을 가리키는 포인터에 가리키는 포인터에 접근한다. 
 	template<typename T>
-	static void CreateComponent(AActor* InActor, T** OutComponent, FName InName, USceneComponent* InParent = nullptr)
+	static void CreateComponent(AActor* InActor, T** OutComponent, FName InName, USceneComponent* InParent = nullptr, FName InSocketName = NAME_None)
 	{
-		// inName를 디폴트로 네임에 넣는다.
 		*OutComponent = InActor->CreateDefaultSubobject<T>(InName);
-		if (!!InParent) { //포인터에서는 nullptr이면 false, nullptr가 아니면 ture이다 . 
-			// !inParent -> 이건 InParent가 nullptr이면 true이고, !!InParent는 두번 부정으로 InParent가  nullptr이 아닌지 확인하는것이다. 
-			// inParent != nullptr 와 같다. 
-			(*OutComponent)->SetupAttachment(InParent);
-			// 즉 InParent가 존재 하면 그 부모에 붙인다.
-			return;
 
+		if (!!InParent)
+		{
+			(*OutComponent)->SetupAttachment(InParent, InSocketName);
+
+			return;
 		}
 
 		InActor->SetRootComponent(*OutComponent);
-
 	}
 	template<typename T>
 	static void CreateActorComponent(AActor* InActor, T** OutComponent, FName InName, USceneComponent* InParent = nullptr)
@@ -100,10 +97,9 @@ public:
     template <typename T>
     static void Log(const T& Value)
     {
-        UE_LOG(LogTemp, Warning, TEXT("%s"), *ToString(Value));
+        UE_LOG(LogTemp, Warning, TEXT("%s"), *LexToString(Value));
     }
-
-private:
+  private:
     // 기본 타입 변환만 지원하는 초간단 버전
     static FString ToString(int32 v)             { return FString::FromInt(v); }
     static FString ToString(float v)             { return FString::SanitizeFloat(v); }

@@ -101,6 +101,12 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Fire") 
 	TSubclassOf<class ACBullet> BulletClass;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Fire") 
+	float SpreadSpeed;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Fire") 
+	float MaxSpreadRadius;
+
 
 
 protected:
@@ -136,6 +142,10 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category ="Magazine")
 	FName SpawnMagazineSocketName;
 	
+protected:
+	UPROPERTY(EditDefaultsOnly, Category ="Magazine")
+	TSubclassOf<class UCUserWidget_CrossHair > CrossHairClass;
+
 
 private: // ÄÄÆÛ³ÍÆ®
 	UPROPERTY(VisibleAnywhere)
@@ -174,8 +184,8 @@ public:
 public:
 	bool CanEquip();
 	void Equip();
-	void Begin_Equip();
-	void End_Equip();
+    virtual	void Begin_Equip();
+	virtual void End_Equip();
 
 	bool CanUnequip();
 	void Unequip();
@@ -212,7 +222,7 @@ public:
 	void End_Reload();
 
 
-private:
+protected:
 	class ACPlayer* Owner;
 
 private:
@@ -226,5 +236,10 @@ private:
 private:
 	uint8 CurrentMagazinCount;
 	class ACMagazine* Magazine;
+private:
+	class UCUserWidget_CrossHair* CrossHair;
+private:
+	float CurrentSpreadRadius;
+	float LastAddSpreadTime;
 
 };

@@ -56,4 +56,5 @@ private:
 	class UCWeaponComponent* Weapon;
 
 	FRotator PrevRotation;
+	
 };

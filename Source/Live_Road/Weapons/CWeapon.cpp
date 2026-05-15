@@ -1,7 +1,12 @@
 #include "../Weapons/CWeapon.h"
-#include "../Characters/CPlayer.h"
 #include "../Global.h"
+
 #include "CBullet.h"
+#include "../Characters/CPlayer.h"
+#include "../Weapons/CMagazine.h"
+#include "../Widgets/CUserWidget_CrossHair.h"
+#include "../EventActor/CTargetActor.h"
+
 #include "Components/SkeletalMeshComponent.h"
 #include "Components/DecalComponent.h"
 #include "Components/TimelineComponent.h"
@@ -12,8 +17,6 @@
 #include "Sound/SoundWave.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraShakeBase.h"
-#include "../Weapons/CMagazine.h"
-#include "../EventActor/CTargetActor.h"
 
 void FWeaponAimData::SetData(ACharacter* InOwner)
 {
@@ -52,7 +55,7 @@ ACWeapon::ACWeapon()
 	CHelpers::GetClass<UCameraShakeBase>(&CameraShakeClass, "/Script/Engine.Blueprint'/Game/Blueprints/Weapons/BP_CamaraShake_AR4.BP_CamaraShake_AR4_C'");
 	CHelpers::GetClass<ACBullet>(&BulletClass, "/Script/Engine.Blueprint'/Game/Blueprints/Weapons/BP_CBullet.BP_CBullet_C'");
 
-
+	CHelpers::GetClass<UCUserWidget_CrossHair>(&CrossHairClass, "/Script/UMGEditor.WidgetBlueprint'/Game/Widgets/WB_CrossHair.WB_CrossHair_C'");
 }
 
 
@@ -79,12 +82,26 @@ void ACWeapon::BeginPlay()
 
 	CurrentMagazinCount = MaxMagazineCount; 
 
+	if (!!CrossHairClass)
+	{
+		CrossHair = CreateWidget<UCUserWidget_CrossHair, APlayerController*>(Owner->GetController<APlayerController>(), CrossHairClass);
+	}
+
 }
 
 void ACWeapon::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	if (LastAddSpreadTime >= 0.0f) {
+		if (GetWorld() -> GetTimeSeconds()- LastAddSpreadTime >= AutoFireInterval + 0.25f)
+	{
+		CurrentSpreadRadius = 0.0f;
+		LastAddSpreadTime = 0.0f;
+		if (!!CrossHair)
+			CrossHair->UpdateSpreadRange(CurrentSpreadRadius);
+		}
+	}
 }
 
 bool ACWeapon::CanEquip()
@@ -119,6 +136,16 @@ void ACWeapon::End_Equip()
 {
 	bEquipping = false;
 
+	if (!!CrossHair) {
+		// 제거가 안된 경우 제거하고 추가한다. 
+		if (CrossHair->IsInViewport())
+			CrossHair->RemoveFromParent();
+
+		CrossHair->AddToViewport();
+		CrossHair->SetMaxSpreadRadius(MaxSpreadRadius);
+		CrossHair->UpdateSpreadRange(0.0f);
+	}
+
 }
 
 bool ACWeapon::CanUnequip()
@@ -137,6 +164,9 @@ void ACWeapon::Unequip()
 {
 	if (HolsterSocketName.IsValid())
 		CHelpers::AttachTo(this, Owner->GetMesh(), HolsterSocketName);
+	if (!!CrossHair)
+		CrossHair->RemoveFromParent();
+
 }
 
 void ACWeapon::ToggleAutoFire()
@@ -155,6 +185,9 @@ bool ACWeapon::CanFire()
 	//달릴때 사격 X
 	if (Owner)
         b |= Owner->IsRunning();
+	// 점프 할때도 사격 X
+
+
 
 	return b == false;
 }
@@ -267,6 +300,16 @@ void ACWeapon::OnFiring()
 			Reload();
 
 	}
+	if (CurrentSpreadRadius <= 1.0f)
+	{
+		CurrentSpreadRadius += SpreadSpeed * GetWorld()->GetDeltaSeconds();
+
+		if (!!CrossHair)
+			CrossHair->UpdateSpreadRange(CurrentSpreadRadius);
+		
+	}
+	LastAddSpreadTime = GetWorld()->GetTimeSeconds();
+
 
 }
 

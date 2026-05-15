@@ -45,7 +45,13 @@ void ACPlayer::BeginPlay()
 	// 카메라 앵글 고정
 	GetController<APlayerController>()->PlayerCameraManager->ViewPitchMin = PitchAngle.X;
 	GetController<APlayerController>()->PlayerCameraManager->ViewPitchMax = PitchAngle.Y;
-
+	
+APlayerController* PC = Cast<APlayerController>(GetController());
+    if (PC && PC->PlayerCameraManager)
+    {
+        // 화면을 검게 시작하여 로딩 시간 벌기
+        PC->PlayerCameraManager->StartCameraFade(1.f, 0.f, 3.0f, FLinearColor::Black, false, false);
+    }
 }
 
 
@@ -65,6 +71,7 @@ void ACPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	PlayerInputComponent->BindAction("Run", EInputEvent::IE_Released,this, &ACPlayer::OffRun);
 
 	PlayerInputComponent->BindAction("AR4", EInputEvent::IE_Pressed, Weapon, &UCWeaponComponent::SetAR4Mode);
+	PlayerInputComponent->BindAction("AK47", EInputEvent::IE_Pressed, Weapon, &UCWeaponComponent::SetAK47Mode);
 
 	PlayerInputComponent->BindAction("Fire", EInputEvent::IE_Pressed, Weapon, &UCWeaponComponent::Begin_Fire);
 	PlayerInputComponent->BindAction("Fire", EInputEvent::IE_Released, Weapon, &UCWeaponComponent::End_Fire);
@@ -119,17 +126,18 @@ void ACPlayer::OffRun()
 	GetCharacterMovement()->MaxWalkSpeed = 400;
 }
 
+void ACPlayer::Jump()
+{
+    Super::Jump();
+}
+
 void ACPlayer::AddScore(int value)
 {
 	MyScore += value;
-	CHelpers::Log(MyScore);
 	if (Hud) {
 		Hud->MyScore(MyScore);
 	}
 
 }
-
-
-
 
 

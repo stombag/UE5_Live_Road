@@ -98,6 +98,12 @@ void UCWeaponComponent::SetAR4Mode()
 	
 }
 
+void UCWeaponComponent::SetAK47Mode()
+{
+	SetMode(EWeaponType::AK47);
+
+}
+
 void UCWeaponComponent::SetMode(EWeaponType InType)
 {
 	if (CurrentType == InType)
@@ -106,8 +112,10 @@ void UCWeaponComponent::SetMode(EWeaponType InType)
 		return;
 	}
 	else if (IsUnarmedMode() == false) {
-		// 현재 장착되어 있는 무기 해제
 
+		CheckFalse(GetCurrentWeapon()->CanUnequip());
+
+		GetCurrentWeapon()->Unequip();
 	}
 	CheckNull(Weapons[(int32)InType]);
 	CheckFalse(Weapons[(int32)InType]->CanEquip());

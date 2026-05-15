@@ -18,7 +18,7 @@ ACBullet::ACBullet()
 
 
 	UStaticMesh* mesh;
-	CHelpers::GetAsset<UStaticMesh>(&mesh, "/Script/Engine.StaticMesh'/Game/Meshs/Sphere.Sphere'");
+	CHelpers::GetAsset<UStaticMesh>(&mesh, "/Script/Engine.StaticMesh'/Game/Blueprints/Weapons/SM_Bullet.SM_Bullet'");
 
 	Mesh->SetStaticMesh(mesh);
 	Mesh->SetRelativeScale3D(FVector(1, 0.025f, 0.025f));

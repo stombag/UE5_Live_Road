@@ -9,6 +9,7 @@
 #include "GameFramework/CharacterMovementComponent.h"
 
 
+
 void UCAnimInstance::NativeBeginPlay()
 {
 	Super::NativeBeginPlay();
@@ -49,17 +50,11 @@ void UCAnimInstance::NativeUpdateAnimation(float DeltaSeconds)
 	bInAim = Weapon->InAim();
 	LeftHandLocation = Weapon->GetLeftHandLocation();
 
-	APawn* Pawn = TryGetPawnOwner();
-    if (Pawn)
-    {
+	APawn* Pawn = TryGetPawnOwner(); 
         ACharacter* Character = Cast<ACharacter>(Pawn);
-        if (Character)
-        {
-            // 캐릭터 무브먼트 컴포넌트에서 공중에 떠 있는지 정보를 가져와 내 bFalling에 대입
-            bFalling = Character->GetCharacterMovement()->IsFalling();
-        }
-    }
-} 
+		
+		bFalling = Character->GetCharacterMovement()->IsFalling();
+  } 
 
 void UCAnimInstance::OnWeaponTypeChanged(EWeaponType InPrevType, EWeaponType InNewType)
 {
