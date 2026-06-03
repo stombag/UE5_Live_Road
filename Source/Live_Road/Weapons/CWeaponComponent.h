@@ -82,6 +82,9 @@ public:
 	void End_Reload();
 
 public:
+	void SetHideWeapons(bool InValue);
+
+public:
 	FWeaponTypeChanged OnWeaponTypeChanged;
 
 private:

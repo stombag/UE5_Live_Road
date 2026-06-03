@@ -1,6 +1,8 @@
 #include "../Characters/CPlayer.h"
 #include "../Global.h"
 #include "CAnimInstance.h"
+#include "CAnimInstance_Arms.h"
+
 #include "GameFramework/SpringArmComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Components/CapsuleComponent.h"
@@ -17,6 +19,8 @@ ACPlayer::ACPlayer()
 	CHelpers::CreateComponent(this, &SpringArm, "SpringArm", GetCapsuleComponent());
 	CHelpers::CreateComponent(this, &Camera, "Camera", SpringArm);
 	CHelpers::CreateActorComponent<UCWeaponComponent>(this, &Weapon, "Weapon");
+	CHelpers::CreateComponent<USkeletalMeshComponent>(this, &Arms, "Arms", Camera);
+
 	//ConstructorHelpers::FObjectFinder<USkeletalMesh>asset(L"");
 
 	USkeletalMesh* mesh;
@@ -36,11 +40,25 @@ ACPlayer::ACPlayer()
 	SpringArm->bUsePawnControlRotation = true;
 	SpringArm->bEnableCameraLag = true;
 
-//테스트
+
+	CHelpers::GetAsset<USkeletalMesh>(&mesh, "/Script/Engine.SkeletalMesh'/Game/Characters/Super_Simple_FPS_Pack/Demo/Manny/SK_Arms.SK_Arms'");
+	Arms->SetSkeletalMesh(mesh);
+	Arms->SetRelativeLocation(FVector(-14.25f, -5.85f, -156.935f));
+	Arms->SetRelativeRotation(FRotator(-0.5f, -11.85f, -1.2f));
+
+	TSubclassOf<UCAnimInstance_Arms> animInstance_arms;
+	CHelpers::GetClass<UCAnimInstance_Arms>(&animInstance_arms, "/Script/Engine.AnimBlueprint'/Game/Characters/ABP_Arms.ABP_Arms_C'");
+	Arms->SetAnimInstanceClass(animInstance_arms);
+
+
+
 }
 
 void ACPlayer::BeginPlay()
 {
+
+
+
 	Super::BeginPlay();
 	// 카메라 앵글 고정
 	GetController<APlayerController>()->PlayerCameraManager->ViewPitchMin = PitchAngle.X;
@@ -52,6 +70,9 @@ APlayerController* PC = Cast<APlayerController>(GetController());
         // 화면을 검게 시작하여 로딩 시간 벌기
         PC->PlayerCameraManager->StartCameraFade(1.f, 0.f, 3.0f, FLinearColor::Black, false, false);
     }
+
+	Arms->SetVisibility(false);
+
 }
 
 
@@ -124,6 +145,23 @@ void ACPlayer::OffRun()
 {
 	bRun = false;
 	GetCharacterMovement()->MaxWalkSpeed = 400;
+}
+
+void ACPlayer::SetFirstPersonMode()
+{
+	GetMesh()->SetVisibility(false);
+
+	Weapon->SetHideWeapons(true);
+
+	Arms->SetVisibility(true);
+}
+
+void ACPlayer::SetThirdPersonMode()
+{
+	GetMesh()->SetVisibility(true);
+	Weapon->SetHideWeapons(false);
+
+	Arms->SetVisibility(false);
 }
 
 void ACPlayer::Jump()

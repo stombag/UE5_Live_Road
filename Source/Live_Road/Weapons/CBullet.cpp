@@ -53,7 +53,7 @@ void ACBullet::Shoot(const FVector& InDirection)
 
 	//  총알 살아있는 시간 3초 뒤에 없어진다.
 	SetLifeSpan(3);
-
+	// 총알 날라가는거 계산
 	Projectile->Velocity = InDirection * Projectile->InitialSpeed;
 	Projectile->SetActive(true);
 

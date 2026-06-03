@@ -16,7 +16,7 @@ ACWeapon_AR4::ACWeapon_AR4()
 	//Equip
 	{
 		HolsterSocketName = "Rifle_AR4_Holster";
-		CHelpers::GetAsset<UAnimMontage>(&EquipMontage, "/Script/Engine.AnimMontage'/Game/Characters/Montages/Equip_Rifle_Standing_Montage.Equip_Rifle_Standing_Montage'");
+		CHelpers::GetAsset<UAnimMontage>(&EquipMontage, "/Script/Engine.AnimMontage'/Game/Characters/Montages/MM_GrabRifleFromBackRight_Montage.MM_GrabRifleFromBackRight_Montage'");
 		EquipMontage_PlayRate = 2;
 		RightHandSocketName = "Rifle_AR4_RightHand";
 		LeftHandLocation = FVector(-30.0f, 11.0f, 9.0f);
@@ -25,12 +25,12 @@ ACWeapon_AR4::ACWeapon_AR4()
 	{
 		BaseData.TargetArmLength = 200;
 		BaseData.SoketOffset = FVector(0, 55, 10);
-		BaseData.FielOfView = 60;
+		BaseData.FielOfView = 90;
 		BaseData.bEnableCameraLag = true;
 
-		AimData.TargetArmLength = 80;
-		AimData.SoketOffset = FVector(0, 55, 10);
-		AimData.FielOfView = 65;
+		AimData.TargetArmLength = 30;
+		AimData.SoketOffset = FVector(-55, 0, 10);
+		AimData.FielOfView = 55;
 		AimData.bEnableCameraLag = false;
 
 	}
@@ -41,9 +41,10 @@ ACWeapon_AR4::ACWeapon_AR4()
 		RecoilAnlgle = 0.75f;
 		CHelpers::GetClass<UCameraShakeBase>(&CameraShakeClass, "/Script/Engine.Blueprint'/Game/Blueprints/Weapons/BP_CamaraShake_AR4.BP_CamaraShake_AR4_C'");
 		AutoFireInterval = 0.15f;
-		RecoilPitch = 2.0f;
+		RecoilPitch = 0.05f;
 		SpreadSpeed = 2.0f;
 		MaxSpreadRadius = 2.0f;
+
 
 	}
 

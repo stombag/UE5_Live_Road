@@ -281,9 +281,10 @@ void ACWeapon::OnFiring()
 
 	Owner->AddControllerPitchInput(-RecoilPitch * UKismetMathLibrary::RandomFloatInRange(0.8f, 1.2f));
 
+	// 총알 날라가는 위치 
 	if (!!BulletClass)
 	{
-		FVector location = Mesh->GetSocketLocation("MUzzle_Bullet"); 
+		FVector location = Mesh->GetSocketLocation("Muzzle"); 
 
 		FActorSpawnParameters params;
 		params.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;

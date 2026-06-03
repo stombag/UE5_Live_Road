@@ -25,4 +25,7 @@ public:
 
 	void Begin_Equip() override;
 	void End_Equip() override;
+
+	void Begin_Aim() override;
+	void End_Aim() override;
 };

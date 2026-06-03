@@ -237,6 +237,18 @@ void UCWeaponComponent::End_Reload()
 	GetCurrentWeapon()->End_Reload();
 }
 
+void UCWeaponComponent::SetHideWeapons(bool InValue)
+{
+	ACWeapon* current = GetCurrentWeapon();
+	for (ACWeapon* weapon : Weapons)
+	{
+		if (!!current && current == weapon)
+			continue;
+
+		weapon->SetHidden(InValue);
+	}
+}
+
 
 
 

@@ -26,9 +26,16 @@ private:
 
 	UPROPERTY(VisibleAnywhere)
 	class UCameraComponent* Camera;
+
+	UPROPERTY(VisibleAnywhere)
+	class USkeletalMeshComponent* Arms;
+
 protected:
 	UPROPERTY(VisibleAnywhere)
 	class UCWeaponComponent* Weapon;
+public:
+	// 장비 숨길때 사용함 리턴 값 받기
+	// FORCEINLINE class UStaticMeshComponent* GetBackpack() { return Backpack; }
 public:
 	ACPlayer();
 
@@ -48,8 +55,15 @@ private:
 	void OnRun();
 	void OffRun();
 
+public:
+	void SetFirstPersonMode();
+	void SetThirdPersonMode();
+
+
+
 protected:
 	virtual void Jump() override;
+
 public:
 	void AddScore(int value);
 	// 어떤식으로 들어가는지 확인하기 
